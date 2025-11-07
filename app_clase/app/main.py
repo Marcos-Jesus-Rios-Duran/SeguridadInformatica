@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit, QPushButton
 from login import Ui_MainWindow
-from frnMenu import menu
+from menuBackEnd import MenuWindow  # Importar la ventana del menú
 
 class LoginWindow(QMainWindow):
     def __init__(self):
@@ -53,13 +53,8 @@ class LoginWindow(QMainWindow):
                 QMessageBox.critical(self, "Error", "Usuario o contraseña incorrectos")
     
     def abrir_menu(self):
-        # Crear la ventana principal del menú
-        self.menu_window = QMainWindow()
-        # Crear la interfaz del menú
-        self.menu_ui = menu()
-        # Configurar la UI en la ventana
-        self.menu_ui.setupUi(self.menu_window)
-        # Mostrar la ventana del menú
+        # Crear y mostrar la ventana del menú
+        self.menu_window = MenuWindow()
         self.menu_window.show()
         # Cerrar la ventana de login
         self.close()
