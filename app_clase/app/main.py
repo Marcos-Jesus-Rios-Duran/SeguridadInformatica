@@ -1,6 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit, QPushButton
 from login import Ui_MainWindow
+from frnMenu import menu
 
 class LoginWindow(QMainWindow):
     def __init__(self):
@@ -37,7 +38,7 @@ class LoginWindow(QMainWindow):
         return True
     
     def aceptar_login(self):
-        # Primero validamos que los campos no estén vacíos
+        # Validación de campos vacios
         if self.validar_campos():
             # Obtenemos los valores ingresados
             usuario = self.ui.lvluser.text()
@@ -46,8 +47,22 @@ class LoginWindow(QMainWindow):
             # Validamos usuario y contraseña
             if (usuario == "admin" or usuario == "Marcos") and password == "mrco":
                 QMessageBox.information(self, "Éxito", f"¡Bienvenido {usuario}!")
+                # Abrir ventana de menú
+                self.abrir_menu()
             else:
                 QMessageBox.critical(self, "Error", "Usuario o contraseña incorrectos")
+    
+    def abrir_menu(self):
+        # Crear la ventana principal del menú
+        self.menu_window = QMainWindow()
+        # Crear la interfaz del menú
+        self.menu_ui = menu()
+        # Configurar la UI en la ventana
+        self.menu_ui.setupUi(self.menu_window)
+        # Mostrar la ventana del menú
+        self.menu_window.show()
+        # Cerrar la ventana de login
+        self.close()
     
     def toggle_password(self):
         if self.password_visible:

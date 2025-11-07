@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuEncriptar">
+    <property name="title">
+     <string>Encriptar</string>
+    </property>
+    <addaction name="Crear_Documento"/>
+   </widget>
+   <widget class="QMenu" name="menuDesencriptar">
+    <property name="title">
+     <string>Desencriptar</string>
+    </property>
+    <addaction name="ctionCargarDocumento"/>
+   </widget>
+   <widget class="QMenu" name="menuAyuda">
+    <property name="title">
+     <string>Ayuda</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menusalir">
+    <property name="title">
+     <string>Salir</string>
+    </property>
+   </widget>
+   <addaction name="menuEncriptar"/>
+   <addaction name="menuDesencriptar"/>
+   <addaction name="menuAyuda"/>
+   <addaction name="menusalir"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="Crear_Documento">
+   <property name="text">
+    <string>Crear Documento</string>
+   </property>
+  </action>
+  <action name="ctionCargarDocumento">
+   <property name="text">
+    <string>Cargar Documento</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
