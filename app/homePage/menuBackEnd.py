@@ -6,13 +6,15 @@ Este módulo contiene la clase MenuWindow que implementa la lógica de negocio
 para la ventana del menú principal del sistema, gestionando las opciones de
 encriptación, desencriptación y navegación del sistema.
 
-Autor: [Marcos Jesús Ríos Durán]
+Autor: Marcos Jesús Ríos Durán
 Fecha: 07/11/2025
 Versión: 1.0.0
 
 Dependencias:
     - PyQt6.QtWidgets: Componentes de interfaz gráfica
     - homePage.frnMenu.menu: Interfaz de usuario generada del menú
+    - encriptacion.encriptarLogic: Ventana de encriptación
+    - desencriptacion.desencriptarLogic: Ventana de desencriptación
 """
 
 # ============================================================================
@@ -20,8 +22,10 @@ Dependencias:
 # ============================================================================
 
 import sys 
-from homePage.frnMenu import menu as MenuUI  # Renombramos para evitar conflicto
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit, QPushButton
+from homePage.frnMenu import menu as MenuUI
+from encriptacion.encriptarLogic import EncriptarWindow
+from desencriptacion.desencriptarLogic import DesencriptarWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
 
 
 # ============================================================================
@@ -38,6 +42,8 @@ class MenuWindow(QMainWindow):
     
     Attributes:
         ui (MenuUI): Instancia de la interfaz de usuario del menú
+        ventana_encriptar (EncriptarWindow): Referencia a la ventana de encriptación
+        ventana_desencriptar (DesencriptarWindow): Referencia a la ventana de desencriptación
         
     Example:
         >>> menu_window = MenuWindow()
@@ -52,15 +58,16 @@ class MenuWindow(QMainWindow):
         Constructor de la clase MenuWindow.
         
         Inicializa la ventana del menú principal, configura la interfaz de
-        usuario y prepara todos los componentes visuales para su uso.
+        usuario y conecta las señales de los elementos del menú con sus
+        respectivos manejadores de eventos.
         
         Este método se ejecuta automáticamente al crear una instancia de
         MenuWindow y es responsable de:
             - Inicializar la clase padre QMainWindow
             - Crear la interfaz de usuario del menú
             - Configurar la UI en la ventana actual
-            - (Futuro) Conectar señales con slots
-            - (Futuro) Configurar eventos de los menús
+            - Conectar señales con slots
+            - Configurar eventos de los menús
         
         Args:
             None
@@ -80,77 +87,78 @@ class MenuWindow(QMainWindow):
         # INICIALIZACIÓN DE LA CLASE PADRE
         # ====================================================================
         
-        # Inicializa la clase padre QMainWindow
         super().__init__()
         
         # ====================================================================
         # CONFIGURACIÓN DE LA INTERFAZ DE USUARIO
         # ====================================================================
         
-        # Crear la instancia de la interfaz del menú
         self.ui = MenuUI()
-        
-        # Configurar la UI en esta ventana
         self.ui.setupUi(self)
         
         # ====================================================================
-        # CONEXIÓN DE SEÑALES Y SLOTS (AGREGAR AQUÍ EN EL FUTURO)
+        # INICIALIZACIÓN DE REFERENCIAS A VENTANAS
         # ====================================================================
         
-        # TODO: Conectar acción "Crear Documento"
-        # self.ui.Crear_Documento.triggered.connect(self.crear_documento)
+        self.ventana_encriptar = None
+        self.ventana_desencriptar = None
         
-        # TODO: Conectar acción "Cargar Documento"
-        # self.ui.ctionCargarDocumento.triggered.connect(self.cargar_documento)
+        # ====================================================================
+        # CONEXIÓN DE SEÑALES Y SLOTS
+        # ====================================================================
         
-        # TODO: Conectar menú "Ayuda"
-        # self.ui.menuAyuda.triggered.connect(self.mostrar_ayuda)
-        
-        # TODO: Conectar menú "Salir"
-        # self.ui.menusalir.triggered.connect(self.salir_aplicacion)
-    
+        self.ui.Crear_Documento.triggered.connect(self.abrir_encriptar)
+        self.ui.ctionCargarDocumento.triggered.connect(self.abrir_desencriptar)
+       
+       
     # ========================================================================
-    # MÉTODOS DE EJEMPLO PARA FUTURAS IMPLEMENTACIONES
+    # MÉTODOS DE GESTIÓN DE VENTANAS
     # ========================================================================
     
-    def crear_documento(self):
+    def abrir_encriptar(self):
         """
-        Abre la ventana para crear un nuevo documento para encriptar.
+        Abre la ventana de encriptación de mensajes.
         
-        Este método será implementado para permitir al usuario crear un
-        documento nuevo que posteriormente podrá ser encriptado.
+        Crea una nueva instancia de la ventana de encriptación y la muestra
+        al usuario. Esta ventana permite crear y encriptar documentos.
         
         Returns:
             None
             
         Example:
-            >>> self.crear_documento()
+            >>> self.abrir_encriptar()
+            
+        See Also:
+            EncriptarWindow: Clase que implementa la ventana de encriptación
         """
-        # TODO: Implementar lógica para crear documento
-        pass
+        self.ventana_encriptar = EncriptarWindow()
+        self.ventana_encriptar.show()
     
-    def cargar_documento(self):
+    def abrir_desencriptar(self):
         """
-        Abre un diálogo para cargar un documento existente.
+        Abre la ventana de desencriptación de mensajes.
         
-        Este método permitirá al usuario seleccionar un archivo del sistema
-        para desencriptarlo o procesarlo.
+        Crea una nueva instancia de la ventana de desencriptación y la muestra
+        al usuario. Esta ventana permite cargar y desencriptar documentos.
         
         Returns:
             None
             
         Example:
-            >>> self.cargar_documento()
+            >>> self.abrir_desencriptar()
+            
+        See Also:
+            DesencriptarWindow: Clase que implementa la ventana de desencriptación
         """
-        # TODO: Implementar lógica para cargar documento
-        pass
+        self.ventana_desencriptar = DesencriptarWindow()
+        self.ventana_desencriptar.show()
     
     def mostrar_ayuda(self):
         """
-        Muestra la ventana de ayuda del sistema.
+        Muestra información acerca del sistema.
         
-        Despliega información sobre cómo usar el sistema de encriptación
-        y desencriptación.
+        Despliega un cuadro de diálogo con información sobre la versión
+        del sistema, el autor y la fecha de creación.
         
         Returns:
             None
@@ -158,15 +166,21 @@ class MenuWindow(QMainWindow):
         Example:
             >>> self.mostrar_ayuda()
         """
-        # TODO: Implementar ventana de ayuda
-        pass
+        QMessageBox.information(
+            self,
+            "Acerca de",
+            "Sistema de Encriptación v1.0.0\n\n"
+            "Autor: Marcos Jesús Ríos Durán\n"
+            "Fecha: 07/11/2025\n\n"
+            "Sistema de encriptación y desencriptación de mensajes."
+        )
     
     def salir_aplicacion(self):
         """
         Cierra la aplicación de forma segura.
         
-        Muestra un diálogo de confirmación antes de cerrar la aplicación
-        y realiza las tareas de limpieza necesarias.
+        Muestra un cuadro de diálogo de confirmación antes de cerrar la
+        aplicación. Si el usuario confirma, cierra la ventana actual.
         
         Returns:
             None
@@ -174,8 +188,22 @@ class MenuWindow(QMainWindow):
         Example:
             >>> self.salir_aplicacion()
         """
-        # TODO: Implementar cierre seguro con confirmación
-        pass
+        respuesta = QMessageBox.question(
+            self,
+            "Cerrar Sesión",
+            "¿Estás seguro que deseas cerrar la aplicación?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        if respuesta == QMessageBox.StandardButton.Yes:
+             # Importar LoginWindow aquí para evitar importación circular
+             from main import LoginWindow
+        
+            # Crear nueva ventana de login
+             self.login_window = LoginWindow()
+             self.login_window.show()
+        
+             self.close()
 
 
 # ============================================================================
@@ -193,14 +221,7 @@ if __name__ == "__main__":
         Normalmente este módulo es llamado desde LoginWindow después de
         una autenticación exitosa, no se ejecuta directamente.
     """
-    # Crea la aplicación Qt con los argumentos de línea de comandos
     app = QApplication(sys.argv)
-    
-    # Crea e instancia la ventana del menú
     window = MenuWindow()
-    
-    # Muestra la ventana
     window.show()
-    
-    # Inicia el loop de eventos y sale con el código de retorno
     sys.exit(app.exec())
