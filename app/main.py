@@ -126,6 +126,10 @@ class LoginWindow(QMainWindow):
         password = self.ui.lvlpassword.text()
         
         # Valida que el campo de usuario no esté vacío
+        if not usuario and not password:
+             QMessageBox.warning(self, "Error", "Campos vacios ")
+             return False
+        
         if not usuario:
             QMessageBox.warning(self, "Error", "Por favor ingrese un usuario")
             return False
