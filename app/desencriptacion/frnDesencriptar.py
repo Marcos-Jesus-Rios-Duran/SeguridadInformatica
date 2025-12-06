@@ -15,6 +15,10 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        
+        # ====================================================================
+        # BOTÓN CARGAR ARCHIVO
+        # ====================================================================
         self.btnCargarArchivo = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnCargarArchivo.setGeometry(QtCore.QRect(30, 30, 740, 60))
         font = QtGui.QFont()
@@ -23,6 +27,10 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.btnCargarArchivo.setFont(font)
         self.btnCargarArchivo.setObjectName("btnCargarArchivo")
+        
+        # ====================================================================
+        # LABEL
+        # ====================================================================
         self.label = QtWidgets.QLabel(parent=self.centralwidget)
         self.label.setGeometry(QtCore.QRect(30, 110, 200, 30))
         font = QtGui.QFont()
@@ -32,6 +40,10 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
+        
+        # ====================================================================
+        # TEXT EDIT - MENSAJE ENCRIPTADO
+        # ====================================================================
         self.txtMensajeEncriptado = QtWidgets.QTextEdit(parent=self.centralwidget)
         self.txtMensajeEncriptado.setGeometry(QtCore.QRect(30, 150, 550, 350))
         font = QtGui.QFont()
@@ -39,57 +51,46 @@ class Ui_MainWindow(object):
         self.txtMensajeEncriptado.setFont(font)
         self.txtMensajeEncriptado.setReadOnly(True)
         self.txtMensajeEncriptado.setObjectName("txtMensajeEncriptado")
+        
+        # ====================================================================
+        # BOTONES
+        # ====================================================================
         self.btnDesencriptar = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnDesencriptar.setGeometry(QtCore.QRect(620, 150, 150, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.btnDesencriptar.setFont(font)
         self.btnDesencriptar.setObjectName("btnDesencriptar")
+        
         self.btnDescargar = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnDescargar.setGeometry(QtCore.QRect(620, 220, 150, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.btnDescargar.setFont(font)
         self.btnDescargar.setObjectName("btnDescargar")
+        
         self.btnRegresar = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnRegresar.setGeometry(QtCore.QRect(620, 450, 150, 50))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.btnRegresar.setFont(font)
         self.btnRegresar.setObjectName("btnRegresar")
+        
+        # ====================================================================
+        # ESTABLECER WIDGET CENTRAL
+        # ====================================================================
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
-        self.menubar.setObjectName("menubar")
-        self.menuEncriptar = QtWidgets.QMenu(parent=self.menubar)
-        self.menuEncriptar.setObjectName("menuEncriptar")
-        self.menuDesencriptar = QtWidgets.QMenu(parent=self.menubar)
-        self.menuDesencriptar.setObjectName("menuDesencriptar")
-        self.menuAyuda = QtWidgets.QMenu(parent=self.menubar)
-        self.menuAyuda.setObjectName("menuAyuda")
-        self.menuSalir = QtWidgets.QMenu(parent=self.menubar)
-        self.menuSalir.setObjectName("menuSalir")
-        MainWindow.setMenuBar(self.menubar)
+        
+        # ====================================================================
+        # STATUSBAR (Opcional - lo puedes dejar o quitar)
+        # ====================================================================
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.actionCrearDocumento = QtGui.QAction(parent=MainWindow)
-        self.actionCrearDocumento.setObjectName("actionCrearDocumento")
-        self.actionCargarDocumento = QtGui.QAction(parent=MainWindow)
-        self.actionCargarDocumento.setObjectName("actionCargarDocumento")
-        self.actionAcercaDe = QtGui.QAction(parent=MainWindow)
-        self.actionAcercaDe.setObjectName("actionAcercaDe")
-        self.actionCerrarSesion = QtGui.QAction(parent=MainWindow)
-        self.actionCerrarSesion.setObjectName("actionCerrarSesion")
-        self.menuEncriptar.addAction(self.actionCrearDocumento)
-        self.menuDesencriptar.addAction(self.actionCargarDocumento)
-        self.menuAyuda.addAction(self.actionAcercaDe)
-        self.menuSalir.addAction(self.actionCerrarSesion)
-        self.menubar.addAction(self.menuEncriptar.menuAction())
-        self.menubar.addAction(self.menuDesencriptar.menuAction())
-        self.menubar.addAction(self.menuAyuda.menuAction())
-        self.menubar.addAction(self.menuSalir.menuAction())
 
+        # ====================================================================
+        # TRADUCCIÓN Y CONEXIÓN
+        # ====================================================================
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -102,14 +103,6 @@ class Ui_MainWindow(object):
         self.btnDesencriptar.setText(_translate("MainWindow", "🔓 Desencriptar"))
         self.btnDescargar.setText(_translate("MainWindow", "💾 Descargar"))
         self.btnRegresar.setText(_translate("MainWindow", "⬅️ Regresar"))
-        self.menuEncriptar.setTitle(_translate("MainWindow", "Encriptar"))
-        self.menuDesencriptar.setTitle(_translate("MainWindow", "Desencriptar"))
-        self.menuAyuda.setTitle(_translate("MainWindow", "Ayuda"))
-        self.menuSalir.setTitle(_translate("MainWindow", "Salir"))
-        self.actionCrearDocumento.setText(_translate("MainWindow", "Crear Documento"))
-        self.actionCargarDocumento.setText(_translate("MainWindow", "Cargar Documento"))
-        self.actionAcercaDe.setText(_translate("MainWindow", "Acerca de"))
-        self.actionCerrarSesion.setText(_translate("MainWindow", "Cerrar Sesión"))
 
 
 if __name__ == "__main__":

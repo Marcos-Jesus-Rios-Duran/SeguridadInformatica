@@ -1,19 +1,22 @@
 """
-Módulo de Lógica de Negocio - Sistema de Autenticación
-======================================================
+Módulo Principal del Sistema de Encriptación
+============================================
 
-Este módulo contiene la clase LoginWindow que implementa la lógica de negocio
-para el sistema de autenticación de usuarios, incluyendo validación de campos,
-verificación de credenciales y gestión de la transición al menú principal.
+Este es el punto de entrada principal de la aplicación. Contiene la clase
+LoginWindow que gestiona la autenticación de usuarios y la lógica de inicio
+de sesión del sistema.
 
-Autor: [Marcos Jesús Ríos Durán]
-Fecha: 07/11/2025
+Autor: Marcos Jesús Ríos Durán
+Fecha: 07/12/2025
 Versión: 1.0.0
 
 Dependencias:
     - PyQt6.QtWidgets: Componentes de interfaz gráfica
-    - login.Ui_MainWindow: Interfaz de usuario generada
-    - homePage.menuBackEnd.MenuWindow: Ventana del menú principal
+    - login.Ui_MainWindow: Interfaz de usuario generada para login
+    - homePage.menuLogic.MenuWindow: Ventana del menú principal
+
+Uso:
+    python main.py
 """
 
 # ============================================================================
@@ -23,11 +26,11 @@ Dependencias:
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit, QPushButton
 from login import Ui_MainWindow
-from homePage.menuBackEnd import MenuWindow  # Importar la ventana del menú
+from homePage.menu import MenuWindow
 
 
 # ============================================================================
-# CLASE PRINCIPAL
+# CLASE PRINCIPAL - LOGIN WINDOW
 # ============================================================================
 
 class LoginWindow(QMainWindow):
@@ -48,6 +51,12 @@ class LoginWindow(QMainWindow):
     Credenciales válidas:
         - Usuario: "admin" o "Marcos"
         - Contraseña: "mrco"
+        
+    Example:
+        >>> app = QApplication(sys.argv)
+        >>> window = LoginWindow()
+        >>> window.show()
+        >>> sys.exit(app.exec())
     """
     
     def __init__(self):
@@ -58,16 +67,31 @@ class LoginWindow(QMainWindow):
         establece el modo de ocultación de contraseña, crea el botón de
         visibilidad y conecta todas las señales con sus respectivos slots.
         
+        Proceso de inicialización:
+            1. Inicializa la clase padre QMainWindow
+            2. Configura la interfaz de usuario desde login.py
+            3. Establece el modo Password para el campo de contraseña
+            4. Crea y configura el botón de toggle de visibilidad
+            5. Conecta señales de botones con sus manejadores
+        
         Args:
             None
             
         Returns:
             None
         """
+        # ====================================================================
+        # INICIALIZACIÓN DE LA CLASE PADRE
+        # ====================================================================
+        
         # Inicializa la clase padre QMainWindow
         super().__init__()
         
-        # Crea e inicializa la interfaz de usuario
+        # ====================================================================
+        # CONFIGURACIÓN DE LA INTERFAZ DE USUARIO
+        # ====================================================================
+        
+        # Crea e inicializa la interfaz de usuario del login
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
@@ -76,6 +100,7 @@ class LoginWindow(QMainWindow):
         # ====================================================================
         
         # Ocultar contraseña con asteriscos por defecto
+        # EchoMode.Password muestra asteriscos en lugar del texto real
         self.ui.lvlpassword.setEchoMode(QLineEdit.EchoMode.Password)
         
         # ====================================================================
@@ -86,7 +111,20 @@ class LoginWindow(QMainWindow):
         # Posición: x=420, y=138, ancho=25, alto=25
         self.btn_toggle_password = QPushButton(self.ui.centralwidget)
         self.btn_toggle_password.setGeometry(420, 138, 25, 25)
-        self.btn_toggle_password.setText("👁")  # Icono de ojo cerrado
+        self.btn_toggle_password.setText("👁")  # Icono de ojo
+        self.btn_toggle_password.setStyleSheet("""
+            QPushButton {
+                background-color: transparent;
+                border: none;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+                border-radius: 3px;
+            }
+        """)
+        
+        # Conectar el botón con su función
         self.btn_toggle_password.clicked.connect(self.toggle_password)
         
         # Estado inicial de visibilidad (oculta)
@@ -101,6 +139,10 @@ class LoginWindow(QMainWindow):
         
         # Conectar botón "Cancelar" con el cierre de la aplicación
         self.ui.lvlcancel.clicked.connect(self.close)
+    
+    # ========================================================================
+    # MÉTODOS DE VALIDACIÓN
+    # ========================================================================
     
     def validar_campos(self):
         """
@@ -118,29 +160,63 @@ class LoginWindow(QMainWindow):
             
         Efectos secundarios:
             - Muestra QMessageBox de advertencia si algún campo está vacío
+            
+        Example:
+            >>> if self.validar_campos():
+            >>>     # Proceder con la autenticación
         """
-        # Obtiene el texto ingresado en el campo de usuario
-        usuario = self.ui.lvluser.text()
+        # Obtiene el texto ingresado en el campo de usuario (elimina espacios)
+        usuario = self.ui.lvluser.text().strip()
         
         # Obtiene el texto ingresado en el campo de contraseña
         password = self.ui.lvlpassword.text()
         
-        # Valida que el campo de usuario no esté vacío
+        # ====================================================================
+        # VALIDACIÓN: AMBOS CAMPOS VACÍOS
+        # ====================================================================
+        
         if not usuario and not password:
-             QMessageBox.warning(self, "Error", "Campos vacios ")
-             return False
+            QMessageBox.warning(
+                self, 
+                "Error", 
+                "Por favor complete todos los campos"
+            )
+            return False
+        
+        # ====================================================================
+        # VALIDACIÓN: CAMPO DE USUARIO VACÍO
+        # ====================================================================
         
         if not usuario:
-            QMessageBox.warning(self, "Error", "Por favor ingrese un usuario")
+            QMessageBox.warning(
+                self, 
+                "Error", 
+                "Por favor ingrese un usuario"
+            )
             return False
         
-        # Valida que el campo de contraseña no esté vacío
+        # ====================================================================
+        # VALIDACIÓN: CAMPO DE CONTRASEÑA VACÍO
+        # ====================================================================
+        
         if not password:
-            QMessageBox.warning(self, "Error", "Por favor ingrese una contraseña")
+            QMessageBox.warning(
+                self, 
+                "Error", 
+                "Por favor ingrese una contraseña"
+            )
             return False
+        
+        # ====================================================================
+        # VALIDACIÓN EXITOSA
+        # ====================================================================
         
         # Retorna True si ambos campos son válidos
         return True
+    
+    # ========================================================================
+    # MÉTODOS DE AUTENTICACIÓN
+    # ========================================================================
     
     def aceptar_login(self):
         """
@@ -170,34 +246,61 @@ class LoginWindow(QMainWindow):
             - Cierra la ventana de login en caso de éxito
         """
         # ====================================================================
-        # VALIDACIÓN DE CAMPOS VACÍOS
+        # PASO 1: VALIDACIÓN DE CAMPOS
         # ====================================================================
         
-        if self.validar_campos():
+        # Verificar que los campos no estén vacíos
+        if not self.validar_campos():
+            return  # Detener el proceso si la validación falla
+        
+        # ====================================================================
+        # PASO 2: OBTENCIÓN DE CREDENCIALES
+        # ====================================================================
+        
+        # Obtiene el nombre de usuario ingresado (sin espacios)
+        usuario = self.ui.lvluser.text().strip()
+        
+        # Obtiene la contraseña ingresada
+        password = self.ui.lvlpassword.text()
+        
+        # ====================================================================
+        # PASO 3: VERIFICACIÓN DE CREDENCIALES
+        # ====================================================================
+        
+        # Valida usuario y contraseña contra los valores permitidos
+        if (usuario == "admin" or usuario == "Marcos") and password == "mrco":
             # ================================================================
-            # OBTENCIÓN DE CREDENCIALES
+            # AUTENTICACIÓN EXITOSA
             # ================================================================
             
-            # Obtiene el nombre de usuario ingresado
-            usuario = self.ui.lvluser.text()
+            # Mostrar mensaje de bienvenida
+            QMessageBox.information(
+                self, 
+                "Éxito", 
+                f"¡Bienvenido {usuario}!\n\nAcceso concedido al sistema."
+            )
             
-            # Obtiene la contraseña ingresada
-            password = self.ui.lvlpassword.text()
-            
+            # Abrir ventana de menú principal
+            self.abrir_menu()
+        else:
             # ================================================================
-            # VERIFICACIÓN DE CREDENCIALES
+            # AUTENTICACIÓN FALLIDA
             # ================================================================
             
-            # Valida usuario y contraseña contra los valores permitidos
-            if (usuario == "admin" or usuario == "Marcos") and password == "mrco":
-                # Credenciales correctas: mostrar mensaje de éxito
-                QMessageBox.information(self, "Éxito", f"¡Bienvenido {usuario}!")
-                
-                # Abrir ventana de menú principal
-                self.abrir_menu()
-            else:
-                # Credenciales incorrectas: mostrar mensaje de error
-                QMessageBox.critical(self, "Error", "Usuario o contraseña incorrectos")
+            # Mostrar mensaje de error
+            QMessageBox.critical(
+                self, 
+                "Error de Autenticación", 
+                "Usuario o contraseña incorrectos.\n\nPor favor, intente nuevamente."
+            )
+            
+            # Opcional: Limpiar el campo de contraseña por seguridad
+            self.ui.lvlpassword.clear()
+            self.ui.lvlpassword.setFocus()
+    
+    # ========================================================================
+    # MÉTODOS DE NAVEGACIÓN
+    # ========================================================================
     
     def abrir_menu(self):
         """
@@ -217,6 +320,10 @@ class LoginWindow(QMainWindow):
             - Crea una nueva instancia de MenuWindow
             - Muestra la ventana del menú principal
             - Cierra la ventana de login actual
+            
+        Note:
+            Es importante mantener la referencia a menu_window como atributo
+            de la clase para evitar que sea recolectado por el garbage collector.
         """
         # Crear y almacenar referencia a la ventana del menú
         self.menu_window = MenuWindow()
@@ -226,6 +333,10 @@ class LoginWindow(QMainWindow):
         
         # Cerrar la ventana de login
         self.close()
+    
+    # ========================================================================
+    # MÉTODOS DE INTERACCIÓN
+    # ========================================================================
     
     def toggle_password(self):
         """
@@ -285,10 +396,17 @@ class LoginWindow(QMainWindow):
 
 if __name__ == "__main__":
     """
-    Punto de entrada principal cuando el módulo se ejecuta directamente.
+    Punto de entrada principal de la aplicación.
     
-    Crea la aplicación Qt, inicializa la ventana de login y ejecuta el
-    loop principal de eventos del sistema.
+    Este bloque se ejecuta cuando el script se ejecuta directamente
+    (no cuando se importa como módulo). Crea la aplicación Qt, inicializa
+    la ventana de login y ejecuta el loop principal de eventos.
+    
+    Returns:
+        int: Código de salida de la aplicación (0 = éxito, otro = error)
+        
+    Example:
+        $ python main.py
     """
     # Crea la aplicación Qt con los argumentos de línea de comandos
     app = QApplication(sys.argv)
