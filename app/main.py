@@ -122,6 +122,8 @@ class LoginWindow(QMainWindow):
         
         # Conectar botón "Aceptar" con la validación de login
         self.ui.lvlacept.clicked.connect(self.aceptar_login)
+        # Conectamos el "Enter" de la contraseña a la misma función de aceptar
+        self.ui.lvlpassword.returnPressed.connect(self.aceptar_login)
         
         # Conectar botón "Cancelar" con el cierre de la aplicación
         self.ui.lvlcancel.clicked.connect(self.close)
