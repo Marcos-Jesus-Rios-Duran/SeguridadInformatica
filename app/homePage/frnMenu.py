@@ -132,7 +132,13 @@ class menu(object):
         # Acción "Cargar Documento" - Permite cargar un documento existente para desencriptar
         self.ctionCargarDocumento = QtGui.QAction(parent=MainWindow)
         self.ctionCargarDocumento.setObjectName("ctionCargarDocumento")
-        
+        # Acción "Acerca De" - Muestra información del sistema
+        self.actionAcercaDe = QtGui.QAction(parent=MainWindow)
+        self.actionAcercaDe.setObjectName("actionAcercaDe")
+
+        # Acción "Cerrar Sesión" - Cierra la aplicación
+        self.actionCerrarSesion = QtGui.QAction(parent=MainWindow)
+        self.actionCerrarSesion.setObjectName("actionCerrarSesion")
         # ====================================================================
         # ASIGNACIÓN DE ACCIONES A MENÚS
         # ====================================================================
@@ -142,7 +148,11 @@ class menu(object):
         
         # Agrega la acción "Cargar Documento" al menú "Desencriptar"
         self.menuDesencriptar.addAction(self.ctionCargarDocumento)
-        
+        # Agrega la acción "Acerca De" al menú "Ayuda"
+        self.menuAyuda.addAction(self.actionAcercaDe)
+
+        # Agrega la acción "Cerrar Sesión" al menú "Salir"
+        self.menusalir.addAction(self.actionCerrarSesion)
         # ====================================================================
         # AGREGANDO MENÚS A LA BARRA PRINCIPAL
         # ====================================================================
@@ -212,6 +222,11 @@ class menu(object):
         
         # Texto de la acción "Cargar Documento"
         self.ctionCargarDocumento.setText(_translate("MainWindow", "Cargar Documento"))
+        # Texto de la acción "Acerca De"
+        self.actionAcercaDe.setText(_translate("MainWindow", "Acerca De"))
+
+        # Texto de la acción "Cerrar Sesión"
+        self.actionCerrarSesion.setText(_translate("MainWindow", "Cerrar Sesión"))
 
 
 # ============================================================================

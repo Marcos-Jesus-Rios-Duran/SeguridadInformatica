@@ -44,10 +44,6 @@ class MenuWindow(QMainWindow):
         ui (MenuUI): Instancia de la interfaz de usuario del menú
         ventana_encriptar (EncriptarWindow): Referencia a la ventana de encriptación
         ventana_desencriptar (DesencriptarWindow): Referencia a la ventana de desencriptación
-        
-    Example:
-        >>> menu_window = MenuWindow()
-        >>> menu_window.show()
     
     Note:
         Esta ventana se abre después de un inicio de sesión exitoso.
@@ -68,17 +64,6 @@ class MenuWindow(QMainWindow):
             - Configurar la UI en la ventana actual
             - Conectar señales con slots
             - Configurar eventos de los menús
-        
-        Args:
-            None
-            
-        Returns:
-            None
-            
-        Example:
-            >>> from homePage.menuBackEnd import MenuWindow
-            >>> ventana_menu = MenuWindow()
-            >>> ventana_menu.show()
             
         See Also:
             setupUi(): Método que configura la interfaz gráfica
@@ -109,6 +94,8 @@ class MenuWindow(QMainWindow):
         
         self.ui.Crear_Documento.triggered.connect(self.abrir_encriptar)
         self.ui.ctionCargarDocumento.triggered.connect(self.abrir_desencriptar)
+        self.ui.actionAcercaDe.triggered.connect(self.mostrar_ayuda)
+        self.ui.actionCerrarSesion.triggered.connect(self.salir_aplicacion)
        
        
     # ========================================================================
