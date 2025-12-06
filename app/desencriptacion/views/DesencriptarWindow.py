@@ -10,7 +10,7 @@ Responsabilidad:
 
 from PyQt6.QtWidgets import QMainWindow
 # 1. Importamos la "cara" (formulario generado)
-from desencriptacion.frnDesencriptar import Ui_MainWindow
+from desencriptacion.views.frnDesencriptar import Ui_MainWindow
 # 2. Importamos la "barra" (menú compartido)
 from common.MenuBarComponent import MenuBarComponent
 

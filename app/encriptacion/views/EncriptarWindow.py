@@ -10,7 +10,7 @@ Responsabilidad:
 
 from PyQt6.QtWidgets import QMainWindow
 # Importamos la "cara" del formulario
-from encriptacion.frnEncriptar import Ui_MainWindow
+from encriptacion.views.frnEncriptar import Ui_MainWindow
 # Importamos la "barra" compartida
 from common.MenuBarComponent import MenuBarComponent
 

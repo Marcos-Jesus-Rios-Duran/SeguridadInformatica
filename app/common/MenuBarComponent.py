@@ -27,7 +27,7 @@ class MenuBarComponent:
     # =======================================================
     
     def ir_a_encriptar(self):
-        from encriptacion.encriptarLogic import EncriptarLogic
+        from encriptacion.controller.encriptarLogic import EncriptarLogic
         if isinstance(self.main_window, EncriptarLogic):
             return
 
@@ -36,7 +36,7 @@ class MenuBarComponent:
         self.main_window.close()
 
     def ir_a_desencriptar(self):
-        from desencriptacion.desencriptarLogic import DesencriptarLogic
+        from desencriptacion.controller.desencriptarLogic import DesencriptarLogic
         
         if isinstance(self.main_window, DesencriptarLogic):
             return

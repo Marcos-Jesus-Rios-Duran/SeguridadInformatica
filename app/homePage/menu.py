@@ -185,7 +185,7 @@ class MenuWindow(QMainWindow):
         # ====================================================================
         
         self.label_subtitulo = QLabel(self.frame_principal)
-        self.label_subtitulo.setGeometry(50, 210, 500, 30)
+        self.label_subtitulo.setGeometry(50, 215, 500, 30)
         self.label_subtitulo.setText("¡Bienvenido! Protege tu información de manera segura")
         self.label_subtitulo.setStyleSheet("""
             QLabel {

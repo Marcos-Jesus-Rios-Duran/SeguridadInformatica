@@ -15,8 +15,6 @@ Dependencias:
     - login.Ui_MainWindow: Interfaz de usuario generada para login
     - homePage.menuLogic.MenuWindow: Ventana del menú principal
 
-Uso:
-    python main.py
 """
 
 # ============================================================================
@@ -51,12 +49,6 @@ class LoginWindow(QMainWindow):
     Credenciales válidas:
         - Usuario: "admin" o "Marcos"
         - Contraseña: "mrco"
-        
-    Example:
-        >>> app = QApplication(sys.argv)
-        >>> window = LoginWindow()
-        >>> window.show()
-        >>> sys.exit(app.exec())
     """
     
     def __init__(self):
@@ -73,12 +65,6 @@ class LoginWindow(QMainWindow):
             3. Establece el modo Password para el campo de contraseña
             4. Crea y configura el botón de toggle de visibilidad
             5. Conecta señales de botones con sus manejadores
-        
-        Args:
-            None
-            
-        Returns:
-            None
         """
         # ====================================================================
         # INICIALIZACIÓN DE LA CLASE PADRE
@@ -151,19 +137,12 @@ class LoginWindow(QMainWindow):
         Este método verifica que ambos campos requeridos contengan información
         antes de proceder con la autenticación. Muestra mensajes de advertencia
         al usuario en caso de encontrar campos vacíos.
-        
-        Args:
-            None
             
         Returns:
             bool: True si ambos campos contienen datos, False en caso contrario
             
         Efectos secundarios:
             - Muestra QMessageBox de advertencia si algún campo está vacío
-            
-        Example:
-            >>> if self.validar_campos():
-            >>>     # Proceder con la autenticación
         """
         # Obtiene el texto ingresado en el campo de usuario (elimina espacios)
         usuario = self.ui.lvluser.text().strip()
@@ -232,18 +211,6 @@ class LoginWindow(QMainWindow):
         Credenciales válidas:
             - Usuarios permitidos: "admin" o "Marcos"
             - Contraseña requerida: "mrco"
-        
-        Args:
-            None
-            
-        Returns:
-            None
-            
-        Efectos secundarios:
-            - Muestra QMessageBox de información si el login es exitoso
-            - Muestra QMessageBox de error si las credenciales son incorrectas
-            - Abre la ventana del menú principal en caso de éxito
-            - Cierra la ventana de login en caso de éxito
         """
         # ====================================================================
         # PASO 1: VALIDACIÓN DE CAMPOS
@@ -309,21 +276,11 @@ class LoginWindow(QMainWindow):
         Este método gestiona la transición desde la pantalla de autenticación
         hacia el menú principal del sistema una vez que el usuario ha sido
         autenticado exitosamente.
-        
-        Args:
-            None
-            
-        Returns:
-            None
             
         Efectos secundarios:
             - Crea una nueva instancia de MenuWindow
             - Muestra la ventana del menú principal
             - Cierra la ventana de login actual
-            
-        Note:
-            Es importante mantener la referencia a menu_window como atributo
-            de la clase para evitar que sea recolectado por el garbage collector.
         """
         # Crear y almacenar referencia a la ventana del menú
         self.menu_window = MenuWindow()
@@ -349,12 +306,6 @@ class LoginWindow(QMainWindow):
         Estados:
             - Oculta (False): Muestra asteriscos, icono "👁"
             - Visible (True): Muestra texto plano, icono "👁‍🗨"
-        
-        Args:
-            None
-            
-        Returns:
-            None
             
         Efectos secundarios:
             - Cambia el modo de eco del campo de contraseña
@@ -397,11 +348,6 @@ class LoginWindow(QMainWindow):
 if __name__ == "__main__":
     """
     Punto de entrada principal de la aplicación.
-    
-    Este bloque se ejecuta cuando el script se ejecuta directamente
-    (no cuando se importa como módulo). Crea la aplicación Qt, inicializa
-    la ventana de login y ejecuta el loop principal de eventos.
-    
     Returns:
         int: Código de salida de la aplicación (0 = éxito, otro = error)
         

@@ -11,8 +11,7 @@ Responsabilidad:
 import sys
 from PyQt6.QtWidgets import QApplication
 
-# Importamos al Pintor que acabamos de crear
-from encriptacion.EncriptarWindow import EncriptarWindowUI
+from encriptacion.views.EncriptarWindow import EncriptarWindowUI
 
 class EncriptarLogic(EncriptarWindowUI):
     """

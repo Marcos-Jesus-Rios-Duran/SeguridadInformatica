@@ -12,7 +12,7 @@ import sys
 from PyQt6.QtWidgets import QApplication
 
 # Importamos la ventana compuesta que acabamos de crear arriba
-from desencriptacion.DesencriptarWindow import DesencriptarWindow
+from desencriptacion.views.DesencriptarWindow import DesencriptarWindow
 
 class DesencriptarLogic(DesencriptarWindow):
     """
