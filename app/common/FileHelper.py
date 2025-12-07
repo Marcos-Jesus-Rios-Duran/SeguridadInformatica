@@ -1,54 +1,77 @@
 """
-Helper para Gestión de Archivos
-===============================
+Helper para Gestión de Archivos (Con Validación de Formatos)
+============================================================
 Ubicación: app/common/FileHelper.py
-
-Responsabilidad:
-    - Abrir cuadros de diálogo del sistema (QFileDialog).
-    - Leer contenido de archivos .txt.
-    - Guardar contenido en archivos .txt.
 """
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 import os
 
 class FileHelper:
     
+    # Lista maestra de formatos permitidos.
+    # Ahorita solo TXT, pero aquí agregaremos '.pdf' en el futuro.
+    EXTENSIONES_PERMITIDAS = ['.txt']
+
     @staticmethod
-    def abrir_archivo_txt(parent_window):
+    def abrir_archivo(parent_window):
         """
-        Abre un explorador para seleccionar un archivo .txt y devuelve su contenido.
+        Abre un explorador, VALIDA la extensión y devuelve el contenido.
+        """
+        # 1. Configurar el filtro visual para el diálogo
+        # (Esto ayuda al usuario, pero no es la seguridad real)
+        filtros = "Archivos de Texto (*.txt);;Todos los archivos (*)"
         
-        Args:
-            parent_window: La ventana que llama (para centrar el diálogo).
-            
-        Returns:
-            str: El contenido del archivo si se seleccionó, None si se canceló.
-        """
         ruta_archivo, _ = QFileDialog.getOpenFileName(
             parent_window,
             "Seleccionar Archivo",
-            "", # Directorio inicial (vacío = default del sistema)
-            "Archivos de Texto (*.txt);;Todos los archivos (*)"
+            "",
+            filtros
         )
 
-        if ruta_archivo:
-            try:
-                with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
-                    contenido = archivo.read()
-                    return contenido
-            except Exception as e:
-                QMessageBox.critical(parent_window, "Error", f"No se pudo leer el archivo:\n{str(e)}")
-                return None
-        return None
+        # Si el usuario canceló (no seleccionó nada)
+        if not ruta_archivo:
+            return None
+
+        # ====================================================================
+        # ZONA DE VALIDACIÓN (Tu idea)
+        # ====================================================================
+        # Extraemos la extensión del archivo (ej: 'video.mp4' -> '.mp4')
+        _, extension = os.path.splitext(ruta_archivo)
+        
+        # Convertimos a minúsculas para comparar ('.TXT' == '.txt')
+        extension = extension.lower()
+
+        if extension not in FileHelper.EXTENSIONES_PERMITIDAS:
+            # Aquí atrapamos al usuario intentando subir un video o imagen
+            QMessageBox.warning(
+                parent_window,
+                "Formato No Soportado",
+                f"El archivo seleccionado ({extension}) no es compatible.\n\n"
+                f"Solo se permiten formatos: {', '.join(FileHelper.EXTENSIONES_PERMITIDAS)}"
+            )
+            return None
+
+        # ====================================================================
+        # LECTURA SEGURA
+        # ====================================================================
+        try:
+            # Si llegamos aquí, sabemos que es una extensión válida (.txt)
+            with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+                contenido = archivo.read()
+                return contenido
+                
+        except UnicodeDecodeError:
+            # Esto pasa si suben un archivo binario (imagen) renombrado a .txt
+            QMessageBox.critical(parent_window, "Error de Lectura", "El archivo parece estar dañado o no es texto válido.")
+            return None
+        except Exception as e:
+            QMessageBox.critical(parent_window, "Error", f"No se pudo leer el archivo:\n{str(e)}")
+            return None
 
     @staticmethod
     def guardar_archivo_txt(parent_window, contenido):
         """
-        Abre un explorador para 'Guardar Como' y escribe el contenido.
-        
-        Args:
-            parent_window: La ventana que llama.
-            contenido (str): El texto a guardar.
+        Guarda contenido en un archivo .txt
         """
         if not contenido:
             QMessageBox.warning(parent_window, "Advertencia", "No hay contenido para guardar.")
@@ -63,7 +86,6 @@ class FileHelper:
 
         if ruta_archivo:
             try:
-                # Aseguramos que tenga la extensión .txt
                 if not ruta_archivo.endswith('.txt'):
                     ruta_archivo += '.txt'
                 

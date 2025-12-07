@@ -9,10 +9,11 @@ Responsabilidad:
 """
 
 import sys
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QMessageBox
+
 
 from encriptacion.views.EncriptarWindow import EncriptarWindowUI
-
+from common.FileHelper import FileHelper
 class EncriptarLogic(EncriptarWindowUI):
     """
     Controlador que maneja la lógica de encriptación.
@@ -30,13 +31,24 @@ class EncriptarLogic(EncriptarWindowUI):
         self.ui.btnDescargar.clicked.connect(self.descargar_archivo)
         self.ui.btnEnviar.clicked.connect(self.enviar_mensaje)
         self.ui.btnRegresar.clicked.connect(self.regresar_menu)
+    # --- NUEVA CONEXIÓN ---
+        # Conectamos el botón cargar archivo
+        self.ui.btnCargar.clicked.connect(self.cargar_archivo_txt)
+    # ========================================================================
+    # FUNCIONES DEL NEGOCIO
+    # ========================================================================
 
-    # ========================================================================
-    # FUNCIONES DEL NEGOCIO (Aquí va tu código inteligente)
-    # ========================================================================
+    def cargar_archivo_txt(self):
+        """Usa el FileHelper para leer un TXT y colocarlo en pantalla 
+
+        """
+        #Llamada a el helper
+        contenido = FileHelper.abrir_archivo(self)
+        if contenido is not None:
+            self.ui.txtMensaje.setText(contenido)
+            QMessageBox.information(self, "Exito","Abierto con exito")
 
     def encriptar_mensaje(self):
-        print("Lógica: Iniciando proceso de encriptación...")
         mensaje = self.ui.txtMensaje.toPlainText()
         if mensaje:
             print(f"Encriptando: {mensaje}")
