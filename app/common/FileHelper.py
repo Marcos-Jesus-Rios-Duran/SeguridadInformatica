@@ -30,7 +30,7 @@ class FileHelper:
 
         # Si el usuario canceló (no seleccionó nada)
         if not ruta_archivo:
-            return None
+            return None,None
 
         # ====================================================================
         # ZONA DE VALIDACIÓN (Tu idea)
@@ -49,7 +49,7 @@ class FileHelper:
                 f"El archivo seleccionado ({extension}) no es compatible.\n\n"
                 f"Solo se permiten formatos: {', '.join(FileHelper.EXTENSIONES_PERMITIDAS)}"
             )
-            return None
+            return None,None
 
         # ====================================================================
         # LECTURA SEGURA
