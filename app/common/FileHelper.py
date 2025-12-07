@@ -93,5 +93,41 @@ class FileHelper:
                     archivo.write(contenido)
                 
                 QMessageBox.information(parent_window, "Éxito", "Archivo guardado correctamente.")
+                return ruta_archivo
             except Exception as e:
                 QMessageBox.critical(parent_window, "Error", f"No se pudo guardar el archivo:\n{str(e)}")
+                
+    @staticmethod
+    def guardar_llave_automatica(parent_window, ruta_archivo_origen, contenido_llave):
+        """
+        Crea una carpeta 'keys' y guarda la llave con el mismo nombre del archivo.
+        """
+        try:
+            # 1. Obtener la carpeta base donde está corriendo la app
+            carpeta_base = os.getcwd() # O usar os.path.dirname(ruta_archivo_origen)
+            carpeta_keys = os.path.join(carpeta_base, "keys")
+
+            # 2. Crear la carpeta 'keys' si no existe
+            if not os.path.exists(carpeta_keys):
+                os.makedirs(carpeta_keys)
+
+            # 3. Definir el nombre de la llave
+            # Si el archivo es "C:/Docs/nomina.txt", la llave será "keys/nomina.txt.key"
+            nombre_archivo = os.path.basename(ruta_archivo_origen)
+            nombre_llave = f"{nombre_archivo}.key"
+            ruta_llave = os.path.join(carpeta_keys, nombre_llave)
+
+            # 4. Guardar la llave automáticamente
+            with open(ruta_llave, 'w', encoding='utf-8') as archivo:
+                archivo.write(contenido_llave)
+
+            QMessageBox.information(
+                parent_window, 
+                "Llave Guardada", 
+                f"La llave de seguridad se guardó automáticamente en:\n\n{ruta_llave}\n\n¡No borres esta carpeta!"
+            )
+            return True
+
+        except Exception as e:
+            QMessageBox.critical(parent_window, "Error Crítico", f"No se pudo guardar la llave automática:\n{str(e)}")
+            return False
