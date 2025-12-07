@@ -34,7 +34,7 @@ class EncriptarLogic(EncriptarWindowUI):
     # ========================================================================
 
     def cargar_archivo_txt(self):
-        contenido = FileHelper.abrir_archivo(self)
+        contenido,_ = FileHelper.abrir_archivo(self)
         if contenido is not None:
             self.ui.txtMensaje.setText(contenido)
 

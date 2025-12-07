@@ -58,7 +58,7 @@ class FileHelper:
             # Si llegamos aquí, sabemos que es una extensión válida (.txt)
             with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
                 contenido = archivo.read()
-                return contenido
+                return contenido,ruta_archivo
                 
         except UnicodeDecodeError:
             # Esto pasa si suben un archivo binario (imagen) renombrado a .txt
@@ -66,7 +66,7 @@ class FileHelper:
             return None
         except Exception as e:
             QMessageBox.critical(parent_window, "Error", f"No se pudo leer el archivo:\n{str(e)}")
-            return None
+            return None,None
 
     @staticmethod
     def guardar_archivo_txt(parent_window, contenido):
@@ -96,7 +96,7 @@ class FileHelper:
                 return ruta_archivo
             except Exception as e:
                 QMessageBox.critical(parent_window, "Error", f"No se pudo guardar el archivo:\n{str(e)}")
-                
+
     @staticmethod
     def guardar_llave_automatica(parent_window, ruta_archivo_origen, contenido_llave):
         """
