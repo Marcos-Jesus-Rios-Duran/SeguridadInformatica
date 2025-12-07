@@ -79,9 +79,6 @@ class EncriptarLogic(EncriptarWindowUI):
             llave_str = llave_bytes.decode('utf-8')
             FileHelper.guardar_llave_automatica(self,ruta_guardada,llave_str)
 
-    def enviar_mensaje(self):
-        print("Lógica: Preparando envío de correo/mensaje...")
-
     def regresar_menu(self):
         from homePage.menu import MenuWindow
         self.menu_window = MenuWindow()
