@@ -45,6 +45,7 @@ class DesencriptarLogic(DesencriptarWindow):
                     "¡Cuidado!\n\nEste archivo NO parece estar encriptado.\nEl contenido es legible o tiene un formato incorrecto."
                 )
                 # Opcional: Si quieres impedir que lo cargue, pon 'return' aquí.
+                return
                 # Yo lo dejaré pasar pero con la advertencia.
 
             self.ui.txtMensajeEncriptado.setText(contenido)
@@ -78,7 +79,6 @@ class DesencriptarLogic(DesencriptarWindow):
                 try:
                     with open(ruta_llave_auto, 'r', encoding='utf-8') as f:
                         contenido_llave = f.read()
-                    print(f"Sistema: Llave encontrada en {ruta_llave_auto}")
                 except:
                     contenido_llave = None
 

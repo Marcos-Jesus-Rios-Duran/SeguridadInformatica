@@ -25,7 +25,6 @@ class EncriptarLogic(EncriptarWindowUI):
     def inicializar_logica(self):
         self.ui.btnEncriptar.clicked.connect(self.encriptar_mensaje)
         self.ui.btnDescargar.clicked.connect(self.descargar_archivos) # Ojo: cambié el nombre
-        self.ui.btnEnviar.clicked.connect(self.enviar_mensaje)
         self.ui.btnRegresar.clicked.connect(self.regresar_menu)
         self.ui.btnCargar.clicked.connect(self.cargar_archivo_txt)
 
@@ -79,6 +78,7 @@ class EncriptarLogic(EncriptarWindowUI):
             llave_str = llave_bytes.decode('utf-8')
             FileHelper.guardar_llave_automatica(self,ruta_guardada,llave_str)
 
+    
     def regresar_menu(self):
         from homePage.menu import MenuWindow
         self.menu_window = MenuWindow()
