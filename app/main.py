@@ -136,13 +136,11 @@ class LoginWindow(QMainWindow):
     def abrir_menu(self):
         """
         Abre la ventana del menú principal.
-        IMPLEMENTACIÓN DE LAZY LOADING: Se importa aquí para acelerar el inicio.
+        IMPLEMENTACIÓN DE LAZY LOADING
         """
         # ====================================================================
         # LAZY LOADING (CARGA PEREZOSA)
         # ====================================================================
-        # Importamos aquí para que la app no cargue Criptografía ni Menús
-        # hasta que el usuario realmente haya iniciado sesión.
         from homePage.menu import MenuWindow
         
         self.menu_window = MenuWindow()

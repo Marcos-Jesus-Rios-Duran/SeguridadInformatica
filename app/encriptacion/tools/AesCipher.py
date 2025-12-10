@@ -7,7 +7,6 @@ Responsabilidad:
     - Generar llaves de encriptación.
     - Encriptar texto plano.
     - Desencriptar texto cifrado.
-    - NO sabe nada de la interfaz gráfica.
 """
 from cryptography.fernet import Fernet
 
@@ -16,8 +15,6 @@ class AesCipher:
     def __init__(self, key=None):
         """
         Inicializa el cifrador.
-        Args:
-            key (bytes, opcional): Una llave existente. Si no se da, se genera una nueva.
         """
         if key:
             self.key = key
@@ -32,7 +29,7 @@ class AesCipher:
         Args:
             texto_plano (str): El mensaje original.
         Returns:
-            bytes: El mensaje encriptado (parece basura ilegible).
+            bytes: El mensaje encriptado.
         """
         # Fernet necesita bytes, así que convertimos el string
         if not texto_plano:

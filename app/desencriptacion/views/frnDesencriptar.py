@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         
         # ====================================================================
-        # STATUSBAR (Opcional - lo puedes dejar o quitar)
+        # STATUSBAR 
         # ====================================================================
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
         self.statusbar.setObjectName("statusbar")

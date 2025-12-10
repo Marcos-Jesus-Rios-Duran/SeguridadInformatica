@@ -5,11 +5,10 @@ Archivo: app/desencriptacion/desencriptarWindow.py
 
 Responsabilidad:
     - Unir la UI generada (frnDesencriptar) con el Navbar compartido.
-    - NO contiene lógica de negocio, solo configuración visual.
 """
 
 from PyQt6.QtWidgets import QMainWindow
-# 1. Importamos la "cara" (formulario generado)
+# 1. Importamos el formulario generado
 from desencriptacion.views.frnDesencriptar import Ui_MainWindow
 # 2. Importamos la "barra" (menú compartido)
 from common.MenuBarComponent import MenuBarComponent

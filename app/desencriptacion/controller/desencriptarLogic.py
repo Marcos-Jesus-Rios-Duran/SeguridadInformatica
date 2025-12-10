@@ -1,5 +1,5 @@
 """
-Lógica de Desencriptación Inteligente
+Lógica de Desencriptación
 =====================================
 Archivo: app/desencriptacion/controller/desencriptarLogic.py
 """
@@ -42,12 +42,9 @@ class DesencriptarLogic(DesencriptarWindow):
                 QMessageBox.warning(
                     self, 
                     "Archivo Sospechoso", 
-                    "¡Cuidado!\n\nEste archivo NO parece estar encriptado.\nEl contenido es legible o tiene un formato incorrecto."
+                    "¡Cuidado!\n\nEste archivo NO parece estar encriptado. O \nEl contenido es legible o tiene un formato incorrecto."
                 )
-                # Opcional: Si quieres impedir que lo cargue, pon 'return' aquí.
                 return
-                # Yo lo dejaré pasar pero con la advertencia.
-
             self.ui.txtMensajeEncriptado.setText(contenido)
             self.ruta_archivo_actual = ruta # Guardamos la ruta para buscar la llave luego
 
@@ -66,13 +63,12 @@ class DesencriptarLogic(DesencriptarWindow):
         contenido_llave = None
         
         # --------------------------------------------------------------------
-        # 1. BÚSQUEDA AUTOMÁTICA DE LLAVE (Tu idea)
+        # 1. BÚSQUEDA AUTOMÁTICA DE LLAVE
         # --------------------------------------------------------------------
         if self.ruta_archivo_actual:
             # Armamos la ruta teórica: keys/nombre.txt.key
             nombre_archivo = os.path.basename(self.ruta_archivo_actual)
             carpeta_base = os.getcwd()
-            # Asumimos que la carpeta keys está junto al main.py
             ruta_llave_auto = os.path.join(carpeta_base, "keys", f"{nombre_archivo}.key")
             
             if os.path.exists(ruta_llave_auto):
@@ -83,7 +79,7 @@ class DesencriptarLogic(DesencriptarWindow):
                     contenido_llave = None
 
         # --------------------------------------------------------------------
-        # 2. BÚSQUEDA MANUAL (Si falla la automática)
+        # 2. BÚSQUEDA MANUAL (Solo Si falla la automática)
         # --------------------------------------------------------------------
         if contenido_llave is None:
             QMessageBox.information(

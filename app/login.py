@@ -9,8 +9,6 @@ Autor: [Marcos Jesús Ríos Durán]
 Fecha: 07/11/2025
 Versión: 1.0.0
 
-Nota: Este archivo es generado automáticamente por PyQt6 UI code generator 6.10.0
-      desde el archivo 'login.ui'. No editar manualmente a menos que sea necesario.
 """
 
 # ============================================================================

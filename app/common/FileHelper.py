@@ -9,7 +9,6 @@ import os
 class FileHelper:
     
     # Lista maestra de formatos permitidos.
-    # Ahorita solo TXT, pero aquí agregaremos '.pdf' en el futuro.
     EXTENSIONES_PERMITIDAS = ['.txt']
 
     @staticmethod
@@ -18,7 +17,6 @@ class FileHelper:
         Abre un explorador, VALIDA la extensión y devuelve el contenido.
         """
         # 1. Configurar el filtro visual para el diálogo
-        # (Esto ayuda al usuario, pero no es la seguridad real)
         filtros = "Archivos de Texto (*.txt);;Todos los archivos (*)"
         
         ruta_archivo, _ = QFileDialog.getOpenFileName(
@@ -33,9 +31,9 @@ class FileHelper:
             return None,None
 
         # ====================================================================
-        # ZONA DE VALIDACIÓN (Tu idea)
+        # ZONA DE VALIDACIÓN
         # ====================================================================
-        # Extraemos la extensión del archivo (ej: 'video.mp4' -> '.mp4')
+        # Extraemos la extensión del archivo
         _, extension = os.path.splitext(ruta_archivo)
         
         # Convertimos a minúsculas para comparar ('.TXT' == '.txt')
