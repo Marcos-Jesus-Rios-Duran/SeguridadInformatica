@@ -7,13 +7,12 @@ LoginWindow que gestiona la autenticación de usuarios y la lógica de inicio
 de sesión del sistema.
 
 Autor: Marcos Jesús Ríos Durán
-Fecha: 07/12/2025
-Versión: 1.0.0
+Fecha: 08/12/2025
+Versión: 1.2.0 (Botón Automático)
 
 Dependencias:
     - PyQt6.QtWidgets: Componentes de interfaz gráfica
     - login.Ui_MainWindow: Interfaz de usuario generada para login
-    - homePage.menuLogic.MenuWindow: Ventana del menú principal (Carga Perezosa)
 """
 
 # ============================================================================
@@ -21,13 +20,10 @@ Dependencias:
 # ============================================================================
 
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit, QPushButton
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QMessageBox, 
+                             QLineEdit, QPushButton, QHBoxLayout)
+from PyQt6.QtCore import Qt
 from login import Ui_MainWindow
-
-# --- CAMBIO IMPORTANTE: ---
-# Quitamos el import de MenuWindow de aquí arriba para que el programa arranque rápido.
-# Antes estaba: from homePage.menu import MenuWindow 
-# --------------------------
 
 
 # ============================================================================
@@ -52,23 +48,41 @@ class LoginWindow(QMainWindow):
         self.ui.lvlpassword.setEchoMode(QLineEdit.EchoMode.Password)
         
         # ====================================================================
-        # BOTÓN PARA MOSTRAR/OCULTAR CONTRASEÑA
+        # BOTÓN "OJITO" AUTOMÁTICO (Integrado en el Input)
         # ====================================================================
-        self.btn_toggle_password = QPushButton(self.ui.centralwidget)
-        self.btn_toggle_password.setGeometry(420, 138, 25, 25)
+        
+        # 1. Crear el botón como hijo del campo de contraseña (self.ui.lvlpassword)
+        self.btn_toggle_password = QPushButton(self.ui.lvlpassword)
         self.btn_toggle_password.setText("👁")
+        self.btn_toggle_password.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btn_toggle_password.setFixedWidth(30) # Ancho fijo
+        
+        # Estilo para que parezca un icono flotante limpio
         self.btn_toggle_password.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 border: none;
                 font-size: 16px;
+                color: #94A3B8; /* Gris suave por defecto */
+                padding-bottom: 2px;
             }
             QPushButton:hover {
-                background-color: rgba(0, 0, 0, 0.05);
-                border-radius: 3px;
+                color: #22D3EE; /* Cian Neón al pasar el mouse */
             }
         """)
         
+        # 2. Layout Horizontal DENTRO del Input
+        # Esto es lo que lo acomoda a la derecha automáticamente
+        layout_ojo = QHBoxLayout(self.ui.lvlpassword)
+        layout_ojo.setContentsMargins(0, 0, 5, 0) # Margen derecho de 5px
+        layout_ojo.addStretch() # Empuja el botón hacia el final
+        layout_ojo.addWidget(self.btn_toggle_password)
+        
+        # 3. Margen de Texto del Input
+        # Vital para que lo que escribas no se tape con el botón
+        self.ui.lvlpassword.setTextMargins(0, 0, 35, 0) 
+        
+        # Conexión del evento clic
         self.btn_toggle_password.clicked.connect(self.toggle_password)
         self.password_visible = False
         
@@ -76,7 +90,7 @@ class LoginWindow(QMainWindow):
         # CONEXIÓN DE SEÑALES Y SLOTS
         # ====================================================================
         self.ui.lvlacept.clicked.connect(self.aceptar_login)
-        # Soporte para tecla Enter
+        # Soporte para tecla Enter al escribir la contraseña
         self.ui.lvlpassword.returnPressed.connect(self.aceptar_login)
         self.ui.lvlcancel.clicked.connect(self.close)
     
@@ -113,6 +127,7 @@ class LoginWindow(QMainWindow):
         usuario = self.ui.lvluser.text().strip()
         password = self.ui.lvlpassword.text()
         
+        # Validación de credenciales
         if (usuario == "admin" or usuario == "Marcos") and password == "mrco":
             QMessageBox.information(
                 self, 
@@ -135,12 +150,8 @@ class LoginWindow(QMainWindow):
     
     def abrir_menu(self):
         """
-        Abre la ventana del menú principal.
-        IMPLEMENTACIÓN DE LAZY LOADING
+        Abre la ventana del menú principal (Lazy Loading).
         """
-        # ====================================================================
-        # LAZY LOADING (CARGA PEREZOSA)
-        # ====================================================================
         from homePage.menu import MenuWindow
         
         self.menu_window = MenuWindow()
@@ -158,7 +169,7 @@ class LoginWindow(QMainWindow):
             self.password_visible = False
         else:
             self.ui.lvlpassword.setEchoMode(QLineEdit.EchoMode.Normal)
-            self.btn_toggle_password.setText("👁‍🗨")
+            self.btn_toggle_password.setText("👁‍🗨") # O puedes usar otro icono para 'ojo cerrado'
             self.password_visible = True
 
 

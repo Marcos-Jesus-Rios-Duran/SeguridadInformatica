@@ -1,232 +1,214 @@
 """
-Módulo de Interfaz de Usuario - Pantalla de Login
-==================================================
+Módulo de Interfaz de Usuario - Pantalla de Login (Cyber Spaced Edition)
+========================================================================
 
-Este módulo contiene la clase Ui_MainWindow que define la interfaz gráfica
-para la pantalla de inicio de sesión del sistema.
+Diseño "Dark Cyber" con espaciado mejorado y distribución limpia.
+Ajustado para dar mayor legibilidad y "aire" a los elementos.
 
 Autor: [Marcos Jesús Ríos Durán]
-Fecha: 07/11/2025
-Versión: 1.0.0
-
+Fecha: 08/12/2025
+Versión: 3.1.0 (Cyber Spaced)
 """
 
-# ============================================================================
-# IMPORTACIONES
-# ============================================================================
-
 from PyQt6 import QtCore, QtGui, QtWidgets
-
-
-# ============================================================================
-# CLASE PRINCIPAL
-# ============================================================================
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect
+from PyQt6.QtGui import QColor, QFont
 
 class Ui_MainWindow(object):
-    """
-    Clase que representa la interfaz de usuario de la ventana de Login.
-    
-    Esta clase configura todos los componentes visuales de la pantalla de
-    inicio de sesión, incluyendo campos de texto para usuario y contraseña,
-    botones de acción y elementos decorativos.
-    
-    Attributes:
-        centralwidget (QWidget): Widget central de la ventana principal
-        lvluser (QLineEdit): Campo de texto para ingresar el nombre de usuario
-        lvlpassword (QLineEdit): Campo de texto para ingresar la contraseña
-        lvlacept (QPushButton): Botón para aceptar y validar el login
-        lvlcancel (QPushButton): Botón para cancelar el proceso de login
-        label (QLabel): Etiqueta con imagen decorativa del sistema
-        label_4 (QLabel): Etiqueta de texto "Contraseña"
-        label_5 (QLabel): Etiqueta de texto "Usuario"
-        menubar (QMenuBar): Barra de menú de la ventana
-        statusbar (QStatusBar): Barra de estado de la ventana
-    """
-    
     def setupUi(self, MainWindow):
-        """
-        Configura todos los componentes de la interfaz de usuario.
-        
-        Este método inicializa y posiciona todos los widgets de la ventana,
-        establece sus propiedades visuales y configura las conexiones de señales.
-        
-        Args:
-            MainWindow (QMainWindow): Ventana principal donde se montará la UI
-            
-        Returns:
-            None
-        """
         # ====================================================================
-        # CONFIGURACIÓN DE LA VENTANA PRINCIPAL
+        # 1. CONFIGURACIÓN GENERAL
         # ====================================================================
-        
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(451, 335)  # Establece dimensiones: 451x335 píxeles
+        MainWindow.resize(520, 650) # Ventana un poco más grande
         
-        # ====================================================================
-        # WIDGET CENTRAL
-        # ====================================================================
-        
-        # Crea el widget central que contendrá todos los demás componentes
+        # Fondo degradado Radial Cyber
+        MainWindow.setStyleSheet("""
+            QMainWindow {
+                background: qradialgradient(
+                    cx:0.5, cy:0.5, radius: 0.8,
+                    fx:0.5, fy:0.5,
+                    stop:0 #1E293B,
+                    stop:1 #0F172A
+                );
+            }
+        """)
+
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        
+
         # ====================================================================
-        # CAMPOS DE ENTRADA (QLineEdit)
+        # 2. TARJETA CENTRAL (Más alta y espaciosa)
         # ====================================================================
+        self.card_frame = QtWidgets.QFrame(parent=self.centralwidget)
+        # Centramos la tarjeta: (520-400)/2 = 60 en X
+        self.card_frame.setGeometry(QtCore.QRect(60, 40, 400, 560)) 
+        self.card_frame.setStyleSheet("""
+            QFrame {
+                background-color: rgba(30, 41, 59, 0.95);
+                border-radius: 25px;
+                border: 2px solid #06B6D4;
+            }
+        """)
         
-        # Campo de texto para el nombre de usuario
-        # Posición: x=220, y=130, ancho=231, alto=41
-        self.lvluser = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.lvluser.setGeometry(QtCore.QRect(220, 60, 231, 41))
-        self.lvluser.setObjectName("lvluser")
-        
-        # Campo de texto para la contraseña
-        # Posición: x=220, y=60, ancho=231, alto=41
-        self.lvlpassword = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.lvlpassword.setGeometry(QtCore.QRect(220, 130, 231, 41))
-        self.lvlpassword.setObjectName("lvlpassword")
-        
+        # Sombra Neón
+        shadow = QGraphicsDropShadowEffect(self.card_frame)
+        shadow.setBlurRadius(40)
+        shadow.setXOffset(0)
+        shadow.setYOffset(0)
+        shadow.setColor(QColor(6, 182, 212, 60))
+        self.card_frame.setGraphicsEffect(shadow)
+
         # ====================================================================
-        # BOTONES DE ACCIÓN (QPushButton)
-        # ====================================================================
-        
-        # Botón "Cancelar" con icono
-        # Posición: x=90, y=220, ancho=111, alto=41
-        self.lvlcancel = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.lvlcancel.setGeometry(QtCore.QRect(90, 220, 111, 41))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Imagen1.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.lvlcancel.setIcon(icon)  # Asigna icono desde "Imagen1.png"
-        self.lvlcancel.setObjectName("lvlcancel")
-        
-        # Botón "Aceptar" con icono
-        # Posición: x=260, y=220, ancho=111, alto=41
-        self.lvlacept = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.lvlacept.setGeometry(QtCore.QRect(260, 220, 111, 41))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Imagen2.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.lvlacept.setIcon(icon1)  # Asigna icono desde "Imagen2.png"
-        self.lvlacept.setIconSize(QtCore.QSize(18, 18))  # Tamaño del icono: 18x18 px
-        self.lvlacept.setObjectName("lvlacept")
-        
-        # ====================================================================
-        # ETIQUETAS DE TEXTO (QLabel)
+        # 3. ENCABEZADO (Logo y Títulos)
         # ====================================================================
         
-        # Etiqueta "Contraseña"
-        # Posición: x=150, y=140, ancho=71, alto=31
-        self.label_4 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(150, 140, 71, 31))
-        font = QtGui.QFont()
-        font.setFamily("Agency FB")  # Fuente: Agency FB
-        font.setPointSize(14)  # Tamaño: 14 puntos
-        self.label_4.setFont(font)
-        self.label_4.setObjectName("label_4")
+        # LOGO
+        self.logo_bg = QtWidgets.QLabel(parent=self.card_frame)
+        self.logo_bg.setGeometry(QtCore.QRect(135, 40, 130, 130))
+        self.logo_bg.setText("🛡️")
+        self.logo_bg.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.logo_bg.setStyleSheet("""
+            QLabel {
+                background-color: #0F172A;
+                color: #22D3EE;
+                border-radius: 65px;
+                font-size: 70px;
+                border: 3px solid #22D3EE;
+            }
+        """)
+
+        # TÍTULO (Bajamos un poco para separar del logo)
+        self.lbl_titulo = QtWidgets.QLabel(parent=self.card_frame)
+        self.lbl_titulo.setGeometry(QtCore.QRect(50, 190, 300, 35))
+        self.lbl_titulo.setText("ACCESO SEGURO")
+        self.lbl_titulo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lbl_titulo.setStyleSheet("""
+            font-family: 'Segoe UI Black', sans-serif;
+            font-size: 26px;
+            font-weight: bold;
+            color: #F1F5F9;
+            letter-spacing: 1px;
+        """)
         
-        # Etiqueta "Usuario"
-        # Posición: x=160, y=60, ancho=51, alto=31
-        self.label_5 = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(160, 60, 51, 31))
-        font = QtGui.QFont()
-        font.setFamily("Agency FB")  # Fuente: Agency FB
-        font.setPointSize(14)  # Tamaño: 14 puntos
-        self.label_5.setFont(font)
-        self.label_5.setObjectName("label_5")
-        
+        # SUBTÍTULO
+        self.lbl_subtitulo = QtWidgets.QLabel(parent=self.card_frame)
+        self.lbl_subtitulo.setGeometry(QtCore.QRect(50, 225, 300, 20))
+        self.lbl_subtitulo.setText("Terminal de Ciberseguridad v1.1")
+        self.lbl_subtitulo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lbl_subtitulo.setStyleSheet("color: #06B6D4; font-size: 12px; font-weight: bold;")
+
         # ====================================================================
-        # IMAGEN DECORATIVA
+        # 4. INPUTS (Con más aire entre ellos)
+        # ====================================================================
+        style_input = """
+            QLineEdit {
+                background-color: #334155;
+                border: 2px solid #475569;
+                border-radius: 12px;
+                padding: 0 15px;
+                font-family: 'Segoe UI';
+                font-size: 14px;
+                color: #E2E8F0;
+            }
+            QLineEdit:focus {
+                border: 2px solid #22D3EE;
+                background-color: #1E293B;
+            }
+        """
+
+        # --- USUARIO ---
+        # Etiqueta (Y=270)
+        self.label_user = QtWidgets.QLabel(parent=self.card_frame)
+        self.label_user.setGeometry(QtCore.QRect(50, 270, 300, 20))
+        self.label_user.setText("IDENTIFICADOR DE USUARIO")
+        self.label_user.setStyleSheet("color: #94A3B8; font-size: 11px; font-weight: bold; letter-spacing: 0.8px;")
+
+        # Input (Y=295)
+        self.lvluser = QtWidgets.QLineEdit(parent=self.card_frame)
+        self.lvluser.setGeometry(QtCore.QRect(50, 295, 300, 45))
+        self.lvluser.setPlaceholderText("Usuario...")
+        self.lvluser.setStyleSheet(style_input)
+
+
+        # --- CONTRASEÑA ---
+        # Aumentamos el espacio aquí (De 295+45=340, saltamos a 365)
+        # Etiqueta (Y=365)
+        self.label_pass = QtWidgets.QLabel(parent=self.card_frame)
+        self.label_pass.setGeometry(QtCore.QRect(50, 365, 300, 20))
+        self.label_pass.setText("CLAVE DE ACCESO")
+        self.label_pass.setStyleSheet("color: #94A3B8; font-size: 11px; font-weight: bold; letter-spacing: 0.8px;")
+
+        # Input (Y=390) - ¡OJO AQUÍ PARA TU BOTÓN DEL OJITO!
+        self.lvlpassword = QtWidgets.QLineEdit(parent=self.card_frame)
+        self.lvlpassword.setGeometry(QtCore.QRect(50, 390, 300, 45))
+        self.lvlpassword.setPlaceholderText("••••••••••••")
+        self.lvlpassword.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.lvlpassword.setStyleSheet(style_input)
+
+        # ====================================================================
+        # 5. BOTONES (Abajo con buen margen)
         # ====================================================================
         
-        # Etiqueta con imagen del logo/avatar del sistema
-        # Posición: x=20, y=50, ancho=121, alto=151
-        self.label = QtWidgets.QLabel(parent=self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 50, 121, 151))
-        self.label.setText("")  # Sin texto
-        self.label.setPixmap(QtGui.QPixmap("Imagen3.png"))  # Carga imagen desde "Imagen3.png"
-        self.label.setScaledContents(True)  # Escala la imagen al tamaño del label
-        self.label.setObjectName("label")
-        
+        # Botón INGRESAR (Y=480)
+        self.lvlacept = QtWidgets.QPushButton(parent=self.card_frame)
+        self.lvlacept.setGeometry(QtCore.QRect(210, 480, 140, 50)) # Un poco más altos (50px)
+        self.lvlacept.setText("AUTORIZAR ⚡")
+        self.lvlacept.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.lvlacept.setStyleSheet("""
+            QPushButton {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #06B6D4, stop:1 #3B82F6);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #22D3EE, stop:1 #60A5FA);
+            }
+            QPushButton:pressed { background-color: #0E7490; }
+        """)
+
+        # Botón SALIR (Y=480)
+        self.lvlcancel = QtWidgets.QPushButton(parent=self.card_frame)
+        self.lvlcancel.setGeometry(QtCore.QRect(50, 480, 140, 50))
+        self.lvlcancel.setText("CANCELAR ✕")
+        self.lvlcancel.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.lvlcancel.setStyleSheet("""
+            QPushButton {
+                background-color: #1E293B;
+                color: #94A3B8;
+                border: 2px solid #334155;
+                border-radius: 12px;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                color: #EF4444; border: 2px solid #EF4444; background-color: #331E1E;
+            }
+        """)
+
         # ====================================================================
-        # CONFIGURACIÓN DE COMPONENTES DE LA VENTANA
+        # COMPATIBILIDAD
         # ====================================================================
-        
-        # Establece el widget central en la ventana principal
+        self.label_4 = self.label_pass
+        self.label_5 = self.label_user
+        self.label = self.logo_bg
+
         MainWindow.setCentralWidget(self.centralwidget)
-        
-        # Configura la barra de menú
-        # Posición: x=0, y=0, ancho=451, alto=21
-        self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 451, 21))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        
-        # Configura la barra de estado
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        
-        # ====================================================================
-        # INICIALIZACIÓN FINAL
-        # ====================================================================
-        
-        # Establece los textos traducibles de la interfaz
         self.retranslateUi(MainWindow)
-        
-        # Conecta automáticamente las señales y slots por nombre
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        """
-        Establece los textos de la interfaz de usuario.
-        
-        Este método configura todos los textos visibles en la interfaz,
-        permitiendo la internacionalización y traducción del sistema.
-        
-        Args:
-            MainWindow (QMainWindow): Ventana principal de la aplicación
-            
-        Returns:
-            None
-        """
-        # Obtiene la función de traducción
         _translate = QtCore.QCoreApplication.translate
-        
-        # Configura los textos de cada componente
-        MainWindow.setWindowTitle(_translate("MainWindow", "Login"))  # Título de la ventana
-        self.lvlcancel.setText(_translate("MainWindow", "Cancelar"))  # Texto del botón cancelar
-        self.label_4.setText(_translate("MainWindow", "Contraseña"))  # Texto etiqueta contraseña
-        self.lvlacept.setText(_translate("MainWindow", "Aceptar"))  # Texto del botón aceptar
-        self.label_5.setText(_translate("MainWindow", "Usuario"))  # Texto etiqueta usuario
-
-
-# ============================================================================
-# PUNTO DE ENTRADA DE LA APLICACIÓN
-# ============================================================================
+        MainWindow.setWindowTitle(_translate("MainWindow", "Security System - Access"))
 
 if __name__ == "__main__":
-    """
-    Punto de entrada principal cuando el módulo se ejecuta directamente.
-    
-    Crea la aplicación Qt, inicializa la ventana principal con la interfaz
-    de login y ejecuta el loop principal de eventos.
-    """
     import sys
-    
-    # Crea la aplicación Qt con los argumentos de línea de comandos
     app = QtWidgets.QApplication(sys.argv)
-    
-    # Crea la ventana principal
     MainWindow = QtWidgets.QMainWindow()
-    
-    # Instancia la interfaz de usuario
     ui = Ui_MainWindow()
-    
-    # Configura la interfaz en la ventana principal
     ui.setupUi(MainWindow)
-    
-    # Muestra la ventana
     MainWindow.show()
-    
-    # Inicia el loop de eventos y sale con el código de retorno
     sys.exit(app.exec())
