@@ -1,7 +1,9 @@
 """
-Componente Lógico del MenuBar Compartido
-========================================
+Componente Lógico del MenuBar Compartido (Sleek Cyber Style)
+============================================================
 Ubicación: app/common/MenuBarComponent.py
+
+Navbar reutilizable con estilo oscuro y efectos hover modernos.
 """
 from PyQt6.QtWidgets import QMessageBox
 from common.frnMenuBar import Ui_MenuBar 
@@ -14,7 +16,48 @@ class MenuBarComponent:
     def setup_menubar(self):
         self.ui.setupUi(self.main_window)
         
-        # Conexiones
+        # =======================================================
+        # ESTILO CYBER PARA EL NAVBAR
+        # =======================================================
+        # Aplicamos el estilo oscuro y los efectos hover aquí mismo
+        # para que se replique en todas las ventanas.
+        self.ui.menubar.setStyleSheet("""
+            QMenuBar {
+                background-color: #1E293B; /* Fondo oscuro */
+                color: #E2E8F0; /* Texto claro */
+                border-bottom: 2px solid #10B981; /* Línea verde abajo */
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 14px;
+            }
+            QMenuBar::item {
+                background-color: transparent;
+                padding: 8px 15px;
+                border-radius: 5px;
+            }
+            QMenuBar::item:selected { /* Hover Effect */
+                background-color: #10B981; /* Verde Esmeralda al pasar mouse */
+                color: white;
+            }
+            QMenuBar::item:pressed {
+                background-color: #059669;
+            }
+            
+            /* Estilo para los menús desplegables */
+            QMenu {
+                background-color: #0F172A; /* Fondo muy oscuro */
+                color: #E2E8F0;
+                border: 1px solid #334155;
+            }
+            QMenu::item {
+                padding: 8px 25px;
+            }
+            QMenu::item:selected {
+                background-color: #06B6D4; /* Azul Cian para items */
+                color: white;
+            }
+        """)
+
+        # Conexiones de lógica
         self.ui.actionIrEncriptar.triggered.connect(self.ir_a_encriptar)
         self.ui.actionIrDesencriptar.triggered.connect(self.ir_a_desencriptar)
         self.ui.actionAcercaDe.triggered.connect(self.mostrar_ayuda)
@@ -49,7 +92,7 @@ class MenuBarComponent:
         QMessageBox.information(
             self.main_window,
             "Acerca de",
-            "Sistema de Seguridad Informática v1.0\nCreated by Marcos Ríos"
+            "Sistema de Seguridad Informática\nCreated by Antonio Ocpaco"
         )
 
     def cerrar_sesion(self):
@@ -61,7 +104,6 @@ class MenuBarComponent:
         )
         
         if respuesta == QMessageBox.StandardButton.Yes:
-            # CORREGIDO: Importamos directo desde main (sin app.)
             from main import LoginWindow
             self.login = LoginWindow()
             self.login.show()

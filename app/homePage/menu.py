@@ -1,315 +1,194 @@
 """
-Ventana del Menú Principal - Backend
-====================================
+Ventana del Menú Principal - Backend (Sleek Cyber Duo)
+======================================================
 
-Este módulo contiene la clase MenuWindow que implementa la lógica del menú
-principal con diseño de bienvenida elegante usando el MenuBarComponent.
+Diseño "Centro de Comando" simplificado a dos opciones principales.
+Eliminado el botón de email para mayor coherencia lógica.
 
-Autor: Marcos Jesús Ríos Durán
-Fecha: 07/12/2025
-Versión: 1.0.0
-
-Dependencias:
-    - PyQt6.QtWidgets: Componentes de interfaz gráfica
-    - PyQt6.QtCore: Funcionalidades core de Qt
-    - app.common.MenuBarComponent: Navbar reutilizable
+Autor: [Marcos Jesús Ríos Durán]
+Fecha: 14/12/2025
+Versión: 2.1.0 (Cyber Duo)
 """
 
-# ============================================================================
-# IMPORTACIONES
-# ============================================================================
-
 import sys 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QFrame, QWidget
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QLabel, QPushButton, 
+                             QGraphicsDropShadowEffect, QWidget)
+from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtGui import QColor, QCursor
+
+# Importamos el Navbar reutilizable
 from common.MenuBarComponent import MenuBarComponent
 
-
-# ============================================================================
-# CLASE PRINCIPAL
-# ============================================================================
-
 class MenuWindow(QMainWindow):
-    """
-    Clase que gestiona la ventana del menú principal con diseño de bienvenida.
-    
-    Esta clase utiliza:
-        - MenuBarComponent: Para el navbar compartido
-        - Diseño personalizado: Frame con tarjetas de bienvenida
-    
-    Attributes:
-        centralwidget (QWidget): Widget central de la ventana
-        menubar_component (MenuBarComponent): Componente del navbar
-        frame_principal (QFrame): Frame contenedor del diseño
-        label_icono (QLabel): Label con el icono principal 🔐
-        label_titulo (QLabel): Label para el título
-        label_subtitulo (QLabel): Label para el subtítulo
-        linea_separadora (QFrame): Línea decorativa
-        card_encriptar (QLabel): Tarjeta informativa de encriptación
-        card_desencriptar (QLabel): Tarjeta informativa de desencriptación
-        card_seguridad (QLabel): Tarjeta informativa de seguridad
-    """
-    
     def __init__(self):
-        """
-        Constructor de la clase MenuWindow.
-        
-        Inicializa la ventana del menú principal, configura el menubar
-        reutilizable y crea el diseño de bienvenida elegante en azul.
-        """
-        # ====================================================================
-        # INICIALIZACIÓN DE LA CLASE PADRE
-        # ====================================================================
-        
         super().__init__()
         
         # ====================================================================
-        # CONFIGURACIÓN DE LA VENTANA
+        # 1. CONFIGURACIÓN GENERAL
         # ====================================================================
+        self.setWindowTitle("Centro de Comando - Secure Nexus")
+        self.resize(900, 700)
         
-        # Título de la ventana
-        self.setWindowTitle("Menú Principal - Sistema de Encriptación")
-        
-        # Tamaño de la ventana
-        self.resize(800, 600)
-        
-        # ====================================================================
-        # CREAR WIDGET CENTRAL
-        # ====================================================================
-        
-        self.centralwidget = QWidget(self)
-        self.centralwidget.setObjectName("centralwidget")
-        self.setCentralWidget(self.centralwidget)
-        
-        # Fondo degradado azul elegante
-        self.centralwidget.setStyleSheet("""
-            QWidget#centralwidget {
-                background: qlineargradient(
-                    x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #E8F4F8,
-                    stop:1 #D4E7F1
+        # Fondo degradado profundo
+        self.setStyleSheet("""
+            QMainWindow {
+                background: qradialgradient(
+                    cx:0.5, cy:0.5, radius: 1.0,
+                    fx:0.5, fy:0.5,
+                    stop:0 #0F172A,
+                    stop:1 #020617
                 );
             }
         """)
         
-        # ====================================================================
-        # AGREGAR MENUBAR REUTILIZABLE
-        # ====================================================================
+        self.centralwidget = QWidget(self)
+        self.setCentralWidget(self.centralwidget)
         
-        # Crear y configurar el menubar component (navbar compartido)
+        # ====================================================================
+        # 2. NAVBAR REUTILIZABLE
+        # ====================================================================
         self.menubar_component = MenuBarComponent(self)
         menubar = self.menubar_component.setup_menubar()
+        
+        # Estilo coherente con el componente
+        menubar.setStyleSheet("""
+            QMenuBar {
+                background-color: #1E293B;
+                color: #E2E8F0;
+                border-bottom: 2px solid #10B981;
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 14px;
+            }
+            QMenuBar::item {
+                background-color: transparent;
+                padding: 8px 15px;
+            }
+            QMenuBar::item:selected {
+                background-color: #10B981;
+                color: white;
+            }
+        """)
         self.setMenuBar(menubar)
         
         # ====================================================================
-        # CONFIGURAR DISEÑO DE BIENVENIDA
+        # 3. DASHBOARD
         # ====================================================================
-        
-        self.setup_welcome_design()
-    
-    def setup_welcome_design(self):
-        """
-        Configura el diseño de bienvenida con estilo elegante azul.
-        
-        Crea todos los elementos visuales del mensaje de bienvenida:
-            - Frame principal blanco con bordes redondeados
-            - Icono grande de seguridad (🔐)
-            - Título principal del sistema
-            - Subtítulo descriptivo
-            - Línea separadora decorativa
-            - Tres tarjetas informativas con iconos
-        
-        Paleta de colores azul elegante (inspirada en trajes formales):
-            - #1E3A8A: Azul marino oscuro
-            - #2563EB: Azul medio
-            - #3B82F6: Azul brillante
-            - #60A5FA: Azul claro
-            - #BFDBFE, #DBEAFE: Azules pastel suaves
-        """
-        # ====================================================================
-        # FRAME PRINCIPAL CON ESTILO
-        # ====================================================================
-        
-        self.frame_principal = QFrame(self.centralwidget)
-        self.frame_principal.setGeometry(100, 80, 600, 450)
-        self.frame_principal.setStyleSheet("""
-            QFrame {
-                background-color: white;
-                border-radius: 20px;
-                border: 2px solid #3B82F6;
-            }
-        """)
-        
-        # ====================================================================
-        # ICONO PRINCIPAL
-        # ====================================================================
-        
-        self.label_icono = QLabel(self.frame_principal)
-        self.label_icono.setGeometry(0, 30, 600, 120)
-        self.label_icono.setText("🔐")
-        self.label_icono.setStyleSheet("""
-            QLabel {
-                font-size: 100px;
-                background: qlineargradient(
-                    x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #1E3A8A,
-                    stop:0.5 #3B82F6,
-                    stop:1 #60A5FA
-                );
-                border-radius: 15px;
-                padding: 10px;
-            }
-        """)
-        self.label_icono.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # ====================================================================
+        self.setup_cyber_dashboard()
+
+    def setup_cyber_dashboard(self):
         # TÍTULO PRINCIPAL
-        # ====================================================================
-        
-        self.label_titulo = QLabel(self.frame_principal)
-        self.label_titulo.setGeometry(50, 160, 500, 50)
-        self.label_titulo.setText("Sistema de Encriptación")
-        self.label_titulo.setStyleSheet("""
-            QLabel {
-                font-size: 28px;
-                font-weight: bold;
-                color: #1E3A8A;
-                font-family: 'Segoe UI', 'Arial', sans-serif;
-                letter-spacing: 1px;
-            }
+        self.lbl_titulo = QLabel(self.centralwidget)
+        self.lbl_titulo.setGeometry(0, 50, 900, 50)
+        self.lbl_titulo.setText("CENTRO DE OPERACIONES")
+        self.lbl_titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lbl_titulo.setStyleSheet("""
+            font-family: 'Segoe UI Black', sans-serif;
+            font-size: 34px;
+            font-weight: 800;
+            color: #F0FDF4;
+            letter-spacing: 4px;
         """)
-        self.label_titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # ====================================================================
-        # SUBTÍTULO
-        # ====================================================================
-        
-        self.label_subtitulo = QLabel(self.frame_principal)
-        self.label_subtitulo.setGeometry(50, 215, 500, 30)
-        self.label_subtitulo.setText("¡Bienvenido! Protege tu información de manera segura")
-        self.label_subtitulo.setStyleSheet("""
-            QLabel {
-                font-size: 14px;
-                color: #2563EB;
-                font-family: 'Segoe UI', 'Arial', sans-serif;
-                font-style: italic;
-            }
-        """)
-        self.label_subtitulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # ====================================================================
-        # LÍNEA SEPARADORA DECORATIVA
-        # ====================================================================
-        
-        self.linea_separadora = QFrame(self.frame_principal)
-        self.linea_separadora.setGeometry(150, 255, 300, 2)
-        self.linea_separadora.setStyleSheet("""
-            QFrame {
-                background: qlineargradient(
-                    x1:0, y1:0, x2:1, y2:0,
-                    stop:0 transparent,
-                    stop:0.5 #3B82F6,
-                    stop:1 transparent
-                );
-                border: none;
-            }
-        """)
-        
-        # ====================================================================
-        # TARJETAS INFORMATIVAS
-        # ====================================================================
-        
-        # Tarjeta 1: Encriptar
-        self.card_encriptar = QLabel(self.frame_principal)
-        self.card_encriptar.setGeometry(80, 280, 150, 140)
-        self.card_encriptar.setText(
-            "🔒\n\n"
-            "Encriptar\n\n"
-            "Protege tus\n"
-            "documentos"
-        )
-        self.card_encriptar.setStyleSheet("""
-            QLabel {
-                background: qlineargradient(
-                    x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #DBEAFE,
-                    stop:1 #BFDBFE
-                );
-                border: 2px solid #3B82F6;
-                border-radius: 15px;
-                padding: 15px;
-                font-size: 13px;
-                font-weight: bold;
-                color: #1E3A8A;
-                font-family: 'Segoe UI', 'Arial', sans-serif;
-            }
-        """)
-        self.card_encriptar.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # Tarjeta 2: Desencriptar
-        self.card_desencriptar = QLabel(self.frame_principal)
-        self.card_desencriptar.setGeometry(240, 280, 150, 140)
-        self.card_desencriptar.setText(
-            "🔓\n\n"
-            "Desencriptar\n\n"
-            "Accede a tus\n"
-            "archivos"
-        )
-        self.card_desencriptar.setStyleSheet("""
-            QLabel {
-                background: qlineargradient(
-                    x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #DBEAFE,
-                    stop:1 #BFDBFE
-                );
-                border: 2px solid #3B82F6;
-                border-radius: 15px;
-                padding: 15px;
-                font-size: 13px;
-                font-weight: bold;
-                color: #1E3A8A;
-                font-family: 'Segoe UI', 'Arial', sans-serif;
-            }
-        """)
-        self.card_desencriptar.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # Tarjeta 3: Seguridad
-        self.card_seguridad = QLabel(self.frame_principal)
-        self.card_seguridad.setGeometry(400, 280, 150, 140)
-        self.card_seguridad.setText(
-            "🛡️\n\n"
-            "Seguridad\n\n"
-            "Máxima\n"
-            "protección"
-        )
-        self.card_seguridad.setStyleSheet("""
-            QLabel {
-                background: qlineargradient(
-                    x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #DBEAFE,
-                    stop:1 #BFDBFE
-                );
-                border: 2px solid #3B82F6;
-                border-radius: 15px;
-                padding: 15px;
-                font-size: 13px;
-                font-weight: bold;
-                color: #1E3A8A;
-                font-family: 'Segoe UI', 'Arial', sans-serif;
-            }
-        """)
-        self.card_seguridad.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+        self.lbl_sub = QLabel(self.centralwidget)
+        self.lbl_sub.setGeometry(0, 100, 900, 30)
+        self.lbl_sub.setText("Seleccione un protocolo de seguridad")
+        self.lbl_sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lbl_sub.setStyleSheet("color: #34D399; font-size: 15px; font-weight: bold;")
 
-# ============================================================================
-# PUNTO DE ENTRADA DE LA APLICACIÓN
-# ============================================================================
+        # ====================================================================
+        # TARJETAS DUO (2 COLUMNAS)
+        # ====================================================================
+        # Ancho ventana: 900
+        # Margen izquierdo: 100
+        # Espacio central: 60
+        # Ancho botón: 320
+        # X1 = 100
+        # X2 = 100 + 320 + 60 = 480
+        
+        # --- CARD 1: ENCRIPTAR (Izquierda) ---
+        self.btn_encriptar = QPushButton(self.centralwidget)
+        self.btn_encriptar.setGeometry(100, 170, 320, 380) # Más anchos
+        self.btn_encriptar.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.btn_encriptar.setText("🔒\n\nENCRIPTAR\nDATOS\n\n[ Proteger Archivo ]")
+        self.btn_encriptar.clicked.connect(self.ir_a_encriptar)
+        
+        self.btn_encriptar.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(30, 41, 59, 0.6);
+                border: 2px solid #10B981; /* Borde Esmeralda */
+                border-radius: 25px;
+                color: #ECFDF5;
+                font-family: 'Segoe UI Black';
+                font-size: 20px;
+                padding: 20px;
+            }
+            QPushButton:hover {
+                background-color: rgba(16, 185, 129, 0.15);
+                border: 3px solid #34D399; /* Borde más grueso al hover */
+                color: #34D399;
+                margin-top: -10px; /* Elevación */
+            }
+        """)
+        self.add_shadow(self.btn_encriptar, "#10B981")
+
+        # --- CARD 2: DESENCRIPTAR (Derecha) ---
+        self.btn_desencriptar = QPushButton(self.centralwidget)
+        self.btn_desencriptar.setGeometry(480, 170, 320, 380) # Más anchos
+        self.btn_desencriptar.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.btn_desencriptar.setText("🔓\n\nDESENCRIPTAR\nACCESO\n\n[ Leer Archivo ]")
+        self.btn_desencriptar.clicked.connect(self.ir_a_desencriptar)
+        
+        self.btn_desencriptar.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(30, 41, 59, 0.6);
+                border: 2px solid #06B6D4; /* Borde Cian */
+                border-radius: 25px;
+                color: #ECFDF5;
+                font-family: 'Segoe UI Black';
+                font-size: 20px;
+                padding: 20px;
+            }
+            QPushButton:hover {
+                background-color: rgba(6, 182, 212, 0.15);
+                border: 3px solid #22D3EE;
+                color: #22D3EE;
+                margin-top: -10px;
+            }
+        """)
+        self.add_shadow(self.btn_desencriptar, "#06B6D4")
+
+        # PIE DE PÁGINA
+        self.lbl_footer = QLabel(self.centralwidget)
+        self.lbl_footer.setGeometry(0, 650, 900, 30)
+        self.lbl_footer.setText("SISTEMA SEGURO v2.1 - ACCESO AUTORIZADO")
+        self.lbl_footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lbl_footer.setStyleSheet("color: #475569; font-size: 11px; font-family: 'Consolas';")
+
+    def add_shadow(self, widget, color_hex):
+        """Agrega resplandor"""
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setBlurRadius(40)
+        shadow.setColor(QColor(color_hex))
+        shadow.setOffset(0, 0)
+        widget.setGraphicsEffect(shadow)
+
+    # ========================================================================
+    # NAVEGACIÓN
+    # ========================================================================
+
+    def ir_a_encriptar(self):
+        from encriptacion.controller.encriptarLogic import EncriptarLogic
+        self.window = EncriptarLogic()
+        self.window.show()
+        self.close()
+
+    def ir_a_desencriptar(self):
+        from desencriptacion.controller.desencriptarLogic import DesencriptarLogic
+        self.window = DesencriptarLogic()
+        self.window.show()
+        self.close()
 
 if __name__ == "__main__":
-    """
-    Punto de entrada cuando el módulo se ejecuta directamente.
-    Útil para pruebas del menú sin pasar por el login.
-    """
     app = QApplication(sys.argv)
     window = MenuWindow()
     window.show()

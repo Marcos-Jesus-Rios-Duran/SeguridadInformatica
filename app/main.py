@@ -128,7 +128,7 @@ class LoginWindow(QMainWindow):
         password = self.ui.lvlpassword.text()
         
         # Validación de credenciales
-        if (usuario == "admin" or usuario == "Marcos") and password == "mrco":
+        if (usuario == "admin") and password == "manzana":
             QMessageBox.information(
                 self, 
                 "Éxito", 

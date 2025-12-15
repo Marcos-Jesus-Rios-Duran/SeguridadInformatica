@@ -1,13 +1,15 @@
 """
-Módulo de Interfaz de Usuario - Pantalla de Login (Cyber Spaced Edition)
-========================================================================
+Módulo de Interfaz de Usuario - Pantalla de Login (Sleek Cyber Edition - Hover Fix)
+===================================================================================
 
-Diseño "Dark Cyber" con espaciado mejorado y distribución limpia.
-Ajustado para dar mayor legibilidad y "aire" a los elementos.
+Diseño "Cyberpunk Elegante" para Antonio.
+Ajustes de UX:
+- Hover SALIR -> Rojo (Alerta)
+- Hover AUTORIZAR -> Azul (Acción)
 
 Autor: [Marcos Jesús Ríos Durán]
-Fecha: 08/12/2025
-Versión: 3.1.0 (Cyber Spaced)
+Fecha: 14/12/2025
+Versión: 5.1.0 (Sleek Cyber Hover)
 """
 
 from PyQt6 import QtCore, QtGui, QtWidgets
@@ -20,16 +22,15 @@ class Ui_MainWindow(object):
         # 1. CONFIGURACIÓN GENERAL
         # ====================================================================
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(520, 650) # Ventana un poco más grande
+        MainWindow.resize(700, 600) 
         
-        # Fondo degradado Radial Cyber
         MainWindow.setStyleSheet("""
             QMainWindow {
                 background: qradialgradient(
-                    cx:0.5, cy:0.5, radius: 0.8,
+                    cx:0.5, cy:0.5, radius: 1.0,
                     fx:0.5, fy:0.5,
-                    stop:0 #1E293B,
-                    stop:1 #0F172A
+                    stop:0 #0F172A,
+                    stop:1 #020617
                 );
             }
         """)
@@ -38,154 +39,149 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         # ====================================================================
-        # 2. TARJETA CENTRAL (Más alta y espaciosa)
+        # 2. TARJETA CENTRAL
         # ====================================================================
         self.card_frame = QtWidgets.QFrame(parent=self.centralwidget)
-        # Centramos la tarjeta: (520-400)/2 = 60 en X
-        self.card_frame.setGeometry(QtCore.QRect(60, 40, 400, 560)) 
+        self.card_frame.setGeometry(QtCore.QRect(100, 50, 500, 500))
         self.card_frame.setStyleSheet("""
             QFrame {
-                background-color: rgba(30, 41, 59, 0.95);
+                background-color: rgba(30, 41, 59, 0.90);
                 border-radius: 25px;
-                border: 2px solid #06B6D4;
+                border: 1px solid #10B981;
             }
         """)
         
-        # Sombra Neón
         shadow = QGraphicsDropShadowEffect(self.card_frame)
-        shadow.setBlurRadius(40)
+        shadow.setBlurRadius(50)
         shadow.setXOffset(0)
         shadow.setYOffset(0)
-        shadow.setColor(QColor(6, 182, 212, 60))
+        shadow.setColor(QColor(16, 185, 129, 70))
         self.card_frame.setGraphicsEffect(shadow)
 
         # ====================================================================
-        # 3. ENCABEZADO (Logo y Títulos)
+        # 3. ENCABEZADO
         # ====================================================================
         
         # LOGO
         self.logo_bg = QtWidgets.QLabel(parent=self.card_frame)
-        self.logo_bg.setGeometry(QtCore.QRect(135, 40, 130, 130))
+        self.logo_bg.setGeometry(QtCore.QRect(190, 40, 120, 120))
         self.logo_bg.setText("🛡️")
         self.logo_bg.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.logo_bg.setStyleSheet("""
             QLabel {
-                background-color: #0F172A;
-                color: #22D3EE;
-                border-radius: 65px;
-                font-size: 70px;
-                border: 3px solid #22D3EE;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0F172A, stop:1 #10B981);
+                color: #ECFDF5;
+                border-radius: 60px;
+                font-size: 65px;
+                border: 2px solid #34D399;
             }
         """)
 
-        # TÍTULO (Bajamos un poco para separar del logo)
+        # TÍTULO
         self.lbl_titulo = QtWidgets.QLabel(parent=self.card_frame)
-        self.lbl_titulo.setGeometry(QtCore.QRect(50, 190, 300, 35))
-        self.lbl_titulo.setText("ACCESO SEGURO")
+        self.lbl_titulo.setGeometry(QtCore.QRect(50, 180, 400, 40))
+        self.lbl_titulo.setText("ACCESO AL SISTEMA")
         self.lbl_titulo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_titulo.setStyleSheet("""
-            font-family: 'Segoe UI Black', sans-serif;
-            font-size: 26px;
-            font-weight: bold;
-            color: #F1F5F9;
-            letter-spacing: 1px;
+            font-family: 'Segoe UI Black', 'Roboto', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: #F0FDF4;
+            letter-spacing: 3px;
         """)
-        
-        # SUBTÍTULO
-        self.lbl_subtitulo = QtWidgets.QLabel(parent=self.card_frame)
-        self.lbl_subtitulo.setGeometry(QtCore.QRect(50, 225, 300, 20))
-        self.lbl_subtitulo.setText("Terminal de Ciberseguridad v1.1")
-        self.lbl_subtitulo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lbl_subtitulo.setStyleSheet("color: #06B6D4; font-size: 12px; font-weight: bold;")
 
         # ====================================================================
-        # 4. INPUTS (Con más aire entre ellos)
+        # 4. INPUTS
         # ====================================================================
         style_input = """
             QLineEdit {
-                background-color: #334155;
-                border: 2px solid #475569;
+                background-color: #1E293B;
+                border: 2px solid #334155;
                 border-radius: 12px;
-                padding: 0 15px;
-                font-family: 'Segoe UI';
-                font-size: 14px;
+                padding: 0 20px;
+                font-family: 'Segoe UI', sans-serif;
+                font-size: 15px;
                 color: #E2E8F0;
             }
             QLineEdit:focus {
-                border: 2px solid #22D3EE;
-                background-color: #1E293B;
+                border: 2px solid #34D399;
+                background-color: #0F172A;
             }
+            QLineEdit::placeholder { color: #64748B; font-style: italic; }
         """
 
-        # --- USUARIO ---
-        # Etiqueta (Y=270)
+        # USUARIO
         self.label_user = QtWidgets.QLabel(parent=self.card_frame)
-        self.label_user.setGeometry(QtCore.QRect(50, 270, 300, 20))
-        self.label_user.setText("IDENTIFICADOR DE USUARIO")
-        self.label_user.setStyleSheet("color: #94A3B8; font-size: 11px; font-weight: bold; letter-spacing: 0.8px;")
+        self.label_user.setGeometry(QtCore.QRect(50, 240, 400, 20))
+        self.label_user.setText("IDENTIFICADOR")
+        self.label_user.setStyleSheet("color: #34D399; font-size: 12px; font-weight: bold; letter-spacing: 1px;")
 
-        # Input (Y=295)
         self.lvluser = QtWidgets.QLineEdit(parent=self.card_frame)
-        self.lvluser.setGeometry(QtCore.QRect(50, 295, 300, 45))
-        self.lvluser.setPlaceholderText("Usuario...")
+        self.lvluser.setGeometry(QtCore.QRect(50, 265, 400, 50))
+        self.lvluser.setPlaceholderText("Ingrese su ID de usuario")
         self.lvluser.setStyleSheet(style_input)
 
-
-        # --- CONTRASEÑA ---
-        # Aumentamos el espacio aquí (De 295+45=340, saltamos a 365)
-        # Etiqueta (Y=365)
+        # CONTRASEÑA
         self.label_pass = QtWidgets.QLabel(parent=self.card_frame)
-        self.label_pass.setGeometry(QtCore.QRect(50, 365, 300, 20))
-        self.label_pass.setText("CLAVE DE ACCESO")
-        self.label_pass.setStyleSheet("color: #94A3B8; font-size: 11px; font-weight: bold; letter-spacing: 0.8px;")
+        self.label_pass.setGeometry(QtCore.QRect(50, 335, 400, 20))
+        self.label_pass.setText("CLAVE DE SEGURIDAD")
+        self.label_pass.setStyleSheet("color: #34D399; font-size: 12px; font-weight: bold; letter-spacing: 1px;")
 
-        # Input (Y=390) - ¡OJO AQUÍ PARA TU BOTÓN DEL OJITO!
         self.lvlpassword = QtWidgets.QLineEdit(parent=self.card_frame)
-        self.lvlpassword.setGeometry(QtCore.QRect(50, 390, 300, 45))
+        self.lvlpassword.setGeometry(QtCore.QRect(50, 360, 400, 50))
         self.lvlpassword.setPlaceholderText("••••••••••••")
         self.lvlpassword.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.lvlpassword.setStyleSheet(style_input)
 
         # ====================================================================
-        # 5. BOTONES (Abajo con buen margen)
+        # 5. BOTONES (Con Hover Mejorado)
         # ====================================================================
         
-        # Botón INGRESAR (Y=480)
+        # Botón AUTORIZAR (Verde -> Azul al pasar mouse)
         self.lvlacept = QtWidgets.QPushButton(parent=self.card_frame)
-        self.lvlacept.setGeometry(QtCore.QRect(210, 480, 140, 50)) # Un poco más altos (50px)
-        self.lvlacept.setText("AUTORIZAR ⚡")
+        self.lvlacept.setGeometry(QtCore.QRect(260, 440, 190, 50)) 
+        self.lvlacept.setText("AUTORIZAR ACCESO")
         self.lvlacept.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.lvlacept.setStyleSheet("""
             QPushButton {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #06B6D4, stop:1 #3B82F6);
+                /* Estado Normal: Gradiente Verde */
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #10B981, stop:1 #06B6D4);
                 color: white;
                 border: none;
                 border-radius: 12px;
-                font-weight: bold;
+                font-weight: 800;
+                font-family: 'Segoe UI Black';
                 font-size: 14px;
+                letter-spacing: 1px;
             }
             QPushButton:hover {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #22D3EE, stop:1 #60A5FA);
+                /* HOVER AZUL: Gradiente de Azul a Cian */
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #2563EB, stop:1 #06B6D4);
+                border: 2px solid #3B82F6; /* Borde azul brillante */
             }
-            QPushButton:pressed { background-color: #0E7490; }
+            QPushButton:pressed { background-color: #1E40AF; }
         """)
 
-        # Botón SALIR (Y=480)
+        # Botón SALIR (Gris -> Rojo al pasar mouse)
         self.lvlcancel = QtWidgets.QPushButton(parent=self.card_frame)
-        self.lvlcancel.setGeometry(QtCore.QRect(50, 480, 140, 50))
-        self.lvlcancel.setText("CANCELAR ✕")
+        self.lvlcancel.setGeometry(QtCore.QRect(50, 440, 190, 50))
+        self.lvlcancel.setText("SALIR")
         self.lvlcancel.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.lvlcancel.setStyleSheet("""
             QPushButton {
-                background-color: #1E293B;
+                background-color: transparent;
                 color: #94A3B8;
                 border: 2px solid #334155;
                 border-radius: 12px;
                 font-weight: bold;
+                font-family: 'Segoe UI';
                 font-size: 14px;
             }
             QPushButton:hover {
-                color: #EF4444; border: 2px solid #EF4444; background-color: #331E1E;
+                /* HOVER ROJO: Texto rojo, borde rojo y fondo rojizo */
+                color: #EF4444; 
+                border: 2px solid #EF4444;
+                background-color: rgba(239, 68, 68, 0.1);
             }
         """)
 
@@ -202,7 +198,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Security System - Access"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Secure Access - Antonio"))
 
 if __name__ == "__main__":
     import sys

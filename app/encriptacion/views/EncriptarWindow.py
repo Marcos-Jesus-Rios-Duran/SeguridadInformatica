@@ -16,21 +16,3 @@ class EncriptarWindowUI(QMainWindow):
         self.menubar_component = MenuBarComponent(self)
         menubar = self.menubar_component.setup_menubar()
         self.setMenuBar(menubar)
-
-        # ====================================================================
-        # NUEVO: AGREGAR BOTÓN "CARGAR" MANUALMENTE
-        # ====================================================================
-        # Como no está en el .ui, lo creamos aquí mismo.
-        # Lo pondremos debajo del botón "Enviar".
-        self.ui.btnCargar = QtWidgets.QPushButton(parent=self.ui.centralwidget)
-        self.ui.btnCargar.setGeometry(QtCore.QRect(620, 280, 150, 50)) 
-        
-        # Le damos estilo para que se vea igual a los otros
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.ui.btnCargar.setFont(font)
-        self.ui.btnCargar.setText("📂 Cargar TXT")
-        self.ui.btnCargar.setObjectName("btnCargar")
-        
-        # ¡Importante! Hay que mostrarlo
-        self.ui.btnCargar.show()
